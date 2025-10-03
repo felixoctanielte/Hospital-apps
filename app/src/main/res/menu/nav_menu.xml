@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/nav_antrian" android:title="Cek Antrian" android:icon="@drawable/ic_queue" />
+    <item android:id="@+id/nav_jadwal" android:title="Jadwal Dokter" android:icon="@drawable/ic_calendar" />
+    <item android:id="@+id/nav_riwayat" android:title="Riwayat Perawatan" android:icon="@drawable/ic_history" />
+    <item android:id="@+id/nav_profil" android:title="Profil" android:icon="@drawable/ic_person" />
+</menu>

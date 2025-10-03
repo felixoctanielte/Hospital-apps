@@ -1,0 +1,16 @@
+<resources>
+
+
+
+    <!-- Style untuk kategori -->
+    <style name="CategoryStyle">
+        <item name="android:layout_width">100dp</item>
+        <item name="android:layout_height">100dp</item>
+        <item name="android:background">#89CFF0</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_margin">8dp</item>
+    </style>
+
+</resources>

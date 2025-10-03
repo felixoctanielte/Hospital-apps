@@ -9,6 +9,7 @@ android {
     compileSdk = 36
 
     defaultConfig {
+        vectorDrawables.useSupportLibrary = true
         applicationId = "com.example.hospital_apps"
         minSdk = 24
         targetSdk = 36
@@ -40,7 +41,10 @@ android {
 }
 
 dependencies {
-
+    implementation("com.google.android.material:material:1.12.0")
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("com.google.android.material:material:1.9.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

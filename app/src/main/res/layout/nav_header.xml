@@ -1,0 +1,32 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:orientation="vertical"
+    android:background="#DDDDDD"
+    android:padding="16dp">
+
+    <ImageView
+        android:src="@drawable/ic_person"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:contentDescription="Profile"
+        android:layout_gravity="center_vertical" />
+
+    <TextView
+        android:id="@+id/txtUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="guest81724687"
+        android:textSize="16sp"
+        android:layout_marginTop="8dp"
+        android:textColor="@android:color/black" />
+
+    <TextView
+        android:id="@+id/txtLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Login/Daftar"
+        android:textSize="14sp"
+        android:textColor="@android:color/holo_blue_dark" />
+
+</LinearLayout>

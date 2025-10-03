@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Hospital-apps</string>
+    <string name="open">Open Navigation Drawer</string>
+    <string name="close">Close Navigation Drawer</string>
 </resources>

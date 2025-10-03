@@ -1,47 +1,40 @@
 package com.example.hospital_apps
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.hospital_apps.ui.theme.HospitalappsTheme
+import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import com.google.android.material.navigation.NavigationView
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
+
+    private lateinit var drawerLayout: DrawerLayout
+    private lateinit var navView: NavigationView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            HospitalappsTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
+        setContentView(R.layout.activity_main)
+
+        drawerLayout = findViewById(R.id.drawerLayout)
+        navView = findViewById(R.id.navigationView)
+
+        // ambil menu icon custom dari layout
+        val menuIcon: ImageView = findViewById(R.id.menuIcon)
+        menuIcon.setOnClickListener {
+            drawerLayout.openDrawer(GravityCompat.START) // buka navigation drawer
         }
-    }
-}
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    HospitalappsTheme {
-        Greeting("Android")
+        // handle klik menu di drawer
+        navView.setNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.nav_antrian -> { /* buka Cek Antrian */ }
+                R.id.nav_jadwal -> { /* buka Jadwal Dokter */ }
+                R.id.nav_riwayat -> { /* buka Riwayat */ }
+                R.id.nav_profil -> { /* buka Profil */ }
+            }
+            drawerLayout.closeDrawers()
+            true
+        }
     }
 }
