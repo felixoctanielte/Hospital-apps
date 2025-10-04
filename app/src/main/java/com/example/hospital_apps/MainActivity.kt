@@ -11,30 +11,38 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navView: NavigationView
+    private lateinit var menuIcon: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_main)  // <- pastikan ini activity_main.xml kamu
 
         drawerLayout = findViewById(R.id.drawerLayout)
         navView = findViewById(R.id.navigationView)
+        menuIcon = findViewById(R.id.menuIcon)
 
-        // ambil menu icon custom dari layout
-        val menuIcon: ImageView = findViewById(R.id.menuIcon)
+        // pastikan drawer muncul di atas konten
+        navView.bringToFront()
+
+        // klik hamburger buka drawer
         menuIcon.setOnClickListener {
-            drawerLayout.openDrawer(GravityCompat.START) // buka navigation drawer
+            drawerLayout.openDrawer(GravityCompat.START)
         }
 
-        // handle klik menu di drawer
-        navView.setNavigationItemSelectedListener {
-            when (it.itemId) {
-                R.id.nav_antrian -> { /* buka Cek Antrian */ }
-                R.id.nav_jadwal -> { /* buka Jadwal Dokter */ }
-                R.id.nav_riwayat -> { /* buka Riwayat */ }
-                R.id.nav_profil -> { /* buka Profil */ }
+        // klik item di drawer
+        navView.setNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.nav_antrian -> showToast("Cek Antrian diklik")
+                R.id.nav_jadwal -> showToast("Jadwal Dokter diklik")
+                R.id.nav_riwayat -> showToast("Riwayat diklik")
+                R.id.nav_profil -> showToast("Profil diklik")
             }
-            drawerLayout.closeDrawers()
+            drawerLayout.closeDrawer(GravityCompat.START)
             true
         }
+    }
+
+    private fun showToast(msg: String) {
+        android.widget.Toast.makeText(this, msg, android.widget.Toast.LENGTH_SHORT).show()
     }
 }
