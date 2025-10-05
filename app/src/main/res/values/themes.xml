@@ -3,12 +3,10 @@
     <!-- Main App Theme -->
     <style name="Theme.Hospitalapps" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary colors -->
-<<<<<<< HEAD
-        <item name="colorPrimary">@color/blue</item>
-=======
+
         <item name="colorPrimary">#B3E5FC</item>
 
->>>>>>> 982438558f6e0a47eab6d6a1e7fe0fb04009b1db
+
         <item name="colorPrimaryVariant">@color/teal_700</item>
         <item name="colorOnPrimary">@color/white</item>
 

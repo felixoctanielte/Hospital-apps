@@ -37,3 +37,4 @@ class RegisterActivity : AppCompatActivity() {
             finish()
         }
     }
+}
