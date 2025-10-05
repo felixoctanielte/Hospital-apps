@@ -67,6 +67,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-
+        <!-- 🔹 Tambahkan ini -->
+        <activity
+            android:name=".EditUserActivity"
+            android:label="Edit Data Diri"
+            android:parentActivityName=".UserActivity" />
     </application>
 </manifest>
