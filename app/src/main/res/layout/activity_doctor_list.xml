@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -7,6 +8,17 @@
     android:background="@color/white"
     tools:context=".DoctorListActivity">
 
+    <!-- Toolbar dengan tombol back -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:title="Jadwal Dokter"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:titleCentered="true"
+        app:titleTextColor="@color/black" />
+
+    <!-- RecyclerView daftar dokter -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_doctors"
         android:layout_width="match_parent"

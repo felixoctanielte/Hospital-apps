@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.appbar.MaterialToolbar
 
 class DoctorListActivity : AppCompatActivity() {
 
@@ -14,13 +15,20 @@ class DoctorListActivity : AppCompatActivity() {
 
         val poli = intent.getParcelableExtra<Poli>("poli")
 
-        supportActionBar?.title = "Spesialis ${poli?.name ?: "Dokter"}"
+        // Toolbar setup
+        val toolbar = findViewById<MaterialToolbar>(R.id.toolbar)
+        toolbar.title = "Spesialis ${poli?.name ?: "Dokter"}"
+        toolbar.setNavigationOnClickListener {
+            finish()
+        }
 
+        // Recycler setup
         val recyclerView: RecyclerView = findViewById(R.id.rv_doctors)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         val doctors = sampleDoctorsFor(poli ?: Poli("unknown", "Umum", R.drawable.hex_blue))
 
+        // 🔧 Perhatikan bagian ini — sesuai dengan onRegister(Doctor, String)
         val adapter = DoctorAdapter(doctors) { doctor, selectedTime ->
             val intent = Intent(this, ConfirmationActivity::class.java).apply {
                 putExtra("doctor", doctor)

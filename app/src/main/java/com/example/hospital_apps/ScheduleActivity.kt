@@ -5,6 +5,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.textfield.TextInputEditText
+import androidx.core.widget.addTextChangedListener
 
 class ScheduleActivity : AppCompatActivity() {
 
@@ -12,8 +15,13 @@ class ScheduleActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_schedule)
 
-        supportActionBar?.title = "Pilih Poli - Jadwal Dokter"
+        // Toolbar
+        val toolbar = findViewById<MaterialToolbar>(R.id.toolbar)
+        toolbar.setNavigationOnClickListener {
+            finish()
+        }
 
+        // RecyclerView setup
         val recyclerView: RecyclerView = findViewById(R.id.rv_poli)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -35,5 +43,14 @@ class ScheduleActivity : AppCompatActivity() {
             startActivity(intent)
         }
         recyclerView.adapter = adapter
+
+        // 🔍 Search poli
+        val searchView = findViewById<TextInputEditText>(R.id.searchPoli)
+        searchView.addTextChangedListener { text ->
+            val filteredList = poliList.filter {
+                it.name.contains(text.toString(), ignoreCase = true)
+            }
+            adapter.updateData(filteredList)
+        }
     }
 }

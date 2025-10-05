@@ -3,7 +3,6 @@ package com.example.hospital_apps
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class ConfirmationActivity : AppCompatActivity() {
@@ -15,14 +14,27 @@ class ConfirmationActivity : AppCompatActivity() {
         val doctor = intent.getParcelableExtra<Doctor>("doctor")
         val poli = intent.getParcelableExtra<Poli>("poli")
         val time = intent.getStringExtra("time")
+        val userName = "Jeremy Dominic" // contoh user login
 
-        findViewById<TextView>(R.id.tv_poli).text = "Poli: ${poli?.name ?: "-"}"
-        findViewById<TextView>(R.id.tv_doctor).text = "Dokter: ${doctor?.name ?: "-"}"
-        findViewById<TextView>(R.id.tv_time).text = "Waktu: ${time ?: "-"}"
+        // Bind view
+        val tvUser: TextView = findViewById(R.id.tv_user_name)
+        val tvDoctor: TextView = findViewById(R.id.tv_doctor_name)
+        val tvPoli: TextView = findViewById(R.id.tv_poli_name)
+        val tvTime: TextView = findViewById(R.id.tv_time)
+        val btnConfirm: Button = findViewById(R.id.btn_confirm)
+        val btnCancel: Button = findViewById(R.id.btn_cancel)
 
-        findViewById<Button>(R.id.btn_confirm).setOnClickListener {
-            // TODO: panggil API / simpan ke DB sesuai logic
-            Toast.makeText(this, "Berhasil mendaftar pada ${doctor?.name} jam $time", Toast.LENGTH_LONG).show()
+        tvUser.text = userName
+        tvDoctor.text = doctor?.name
+        tvPoli.text = poli?.name
+        tvTime.text = time
+
+        btnConfirm.setOnClickListener {
+            android.widget.Toast.makeText(this, "Pendaftaran berhasil!", android.widget.Toast.LENGTH_SHORT).show()
+            finish()
+        }
+
+        btnCancel.setOnClickListener {
             finish()
         }
     }

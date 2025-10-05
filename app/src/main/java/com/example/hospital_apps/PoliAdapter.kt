@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class PoliAdapter(
-    private val items: List<Poli>,
+    private var items: List<Poli>,          // ubah dari val ke var supaya bisa di-update
     private val onClick: (Poli) -> Unit
 ) : RecyclerView.Adapter<PoliAdapter.VH>() {
 
@@ -28,7 +28,13 @@ class PoliAdapter(
         val p = items[position]
         holder.tvName.text = p.name
         holder.ivHex.setImageResource(p.hexBgRes)
-        holder.ivHex.imageTintList = null // ensure color is not faded
+        holder.ivHex.imageTintList = null // biar warna hexagon gak redup
         holder.itemView.setOnClickListener { onClick(p) }
+    }
+
+    // 🔍 Tambahkan fungsi ini agar bisa update daftar poli saat pencarian
+    fun updateData(newList: List<Poli>) {
+        items = newList
+        notifyDataSetChanged()
     }
 }
