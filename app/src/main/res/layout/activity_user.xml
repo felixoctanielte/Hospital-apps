@@ -79,15 +79,6 @@
                 android:layout_marginTop="280dp"
                 android:weightSum="2">
 
-                <Button
-                    android:id="@+id/btnEditProfile"
-                    android:layout_width="-2dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Edit Profil"
-                    android:textColor="@color/black"
-                    android:background="@drawable/bg_button_white"
-                    android:layout_marginEnd="8dp" />
 
                 <Button
                     android:id="@+id/btnEditData"
@@ -145,12 +136,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <include
-                android:id="@+id/menuLogout"
-                layout="@layout/item_user_menu"
+            <Button
+                android:id="@+id/btnLogout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="Logout"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/teal_700"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="16dp"
+                android:padding="12dp"
+                android:textSize="16sp" />
         </LinearLayout>
 
     </LinearLayout>
+
+
 </ScrollView>

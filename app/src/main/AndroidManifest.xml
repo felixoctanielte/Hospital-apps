@@ -67,9 +67,17 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
+<<<<<<< HEAD
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity" />
 
 
+=======
+        <!-- 🔹 Tambahkan ini -->
+        <activity
+            android:name=".EditUserActivity"
+            android:label="Edit Data Diri"
+            android:parentActivityName=".UserActivity" />
+>>>>>>> 982438558f6e0a47eab6d6a1e7fe0fb04009b1db
     </application>
 </manifest>

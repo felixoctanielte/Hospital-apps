@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:padding="24dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Bar Atas -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp">
+
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_arrow_back"
+                android:contentDescription="Kembali"
+                android:tint="@color/teal_700" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Detail Pribadi"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_marginStart="70dp"
+                android:textColor="@color/black" />
+        </LinearLayout>
+
+        <!-- Subjudul -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pastikan data berikut sudah benar dan terbaru sebelum disimpan."
+            android:textSize="14sp"
+            android:textColor="#555"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Input Nama -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nama Lengkap"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etNama"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Input Tanggal Lahir -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Tanggal Lahir"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginTop="12dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etTanggalLahir"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:clickable="true"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Input NIK -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nomor NIK"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginTop="12dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etNIK"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Input Alamat -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Alamat"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginTop="12dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etAlamat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="100" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Input BPJS -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nomor BPJS"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginTop="12dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etBPJS"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Checkbox -->
+        <CheckBox
+            android:id="@+id/cbConfirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Saya menyetujui bahwa perubahan data akan diperbarui di sistem rumah sakit."
+            android:layout_marginTop="16dp"
+            android:textColor="#444" />
+
+        <!-- Tombol Simpan -->
+        <Button
+            android:id="@+id/btnSimpan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Simpan Perubahan"
+            android:layout_marginTop="24dp"
+            android:backgroundTint="@color/teal_700"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+</ScrollView>
