@@ -35,10 +35,14 @@ class MainActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
 
+
                 R.id.nav_jadwal -> {
                     val intent = Intent(this, ScheduleActivity::class.java)
                     startActivity(intent)
                 }
+
+                R.id.nav_jadwal -> showToast("Jadwal Dokter diklik")
+
 
                 R.id.nav_riwayat -> {
                     val intent = Intent(this, PerawatanActivity::class.java)
@@ -46,9 +50,15 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.nav_profil -> {
+
                     showToast("Menu Profil diklik")
+
+                    val intent = Intent(this, UserActivity::class.java)
+                    startActivity(intent)
+
                 }
             }
+
 
             drawerLayout.closeDrawer(GravityCompat.START)
             true
