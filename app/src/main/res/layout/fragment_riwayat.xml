@@ -9,44 +9,45 @@
     tools:context=".AntrianActivity">
 
     <!-- Header -->
-    <RelativeLayout
-        android:layout_marginTop="40dp"
-        android:clipToPadding="false"
 
+    <!-- Garis pemisah -->
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
+        android:layout_marginTop="40dp"
+        android:clipToPadding="false"
         android:fitsSystemWindows="true"
-        android:paddingTop="140dp"
-        android:paddingBottom="16dp"
         android:paddingStart="16dp"
-        android:paddingEnd="16dp">
+        android:paddingTop="10dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="16dp">
 
 
-    <!-- Tombol Back -->
+        <!-- Tombol Back -->
         <ImageButton
             android:id="@+id/btnBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="16dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_arrow_back"
-            android:tint="@color/black"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="16dp"/>
+            android:tint="@color/black" />
 
         <!-- Judul Tengah -->
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="4dp"
             android:text="Daftar Antrian"
             android:textColor="@color/black"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="4dp" />
+            android:textStyle="bold" />
     </RelativeLayout>
 
-    <!-- Garis pemisah -->
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
