@@ -26,7 +26,7 @@
 
         <!-- ✅ Tambahkan activity baru untuk Riwayat -->
         <activity
-            android:name=".RiwayatActivity"
+            android:name=".AntrianActivity"
             android:label="Riwayat Perawatan"
             android:parentActivityName=".MainActivity">
             <!-- Supaya tombol back otomatis kembali ke MainActivity -->
