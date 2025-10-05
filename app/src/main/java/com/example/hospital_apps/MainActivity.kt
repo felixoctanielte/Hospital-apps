@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
+import android.content.Intent
 
 class MainActivity : AppCompatActivity() {
 
@@ -40,6 +41,22 @@ class MainActivity : AppCompatActivity() {
             drawerLayout.closeDrawer(GravityCompat.START)
             true
         }
+        navView.setNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.nav_antrian -> showToast("Cek Antrian diklik")
+                R.id.nav_jadwal -> showToast("Jadwal Dokter diklik")
+                R.id.nav_riwayat -> {
+                    // buka halaman baru
+                    val intent = Intent(this, RiwayatActivity::class.java)
+                    startActivity(intent)
+                }
+                R.id.nav_profil -> showToast("Profil diklik")
+            }
+            drawerLayout.closeDrawer(GravityCompat.START)
+            true
+        }
+
+
     }
 
     private fun showToast(msg: String) {

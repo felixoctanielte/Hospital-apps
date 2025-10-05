@@ -4,5 +4,10 @@
     <color name="teal_700">#018786</color>
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
+    <!-- Tambahan warna yang dipakai di fragment_riwayat.xml -->
+    <color name="blue">#03A9F4</color>
+    <color name="green">#4CAF50</color>
+    <color name="red">#F44336</color>
+    <color name="light_blue">#E0F7FA</color>
 </resources>
 
