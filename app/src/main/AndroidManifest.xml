@@ -34,30 +34,31 @@
         <activity
             android:name=".PerawatanActivity"
             android:label="Riwayat Perawatan"
-
             android:parentActivityName=".MainActivity" />
 
-        <!-- schedule page -->
+        <!-- Schedule page -->
         <activity
             android:name=".ScheduleActivity"
             android:label="Jadwal Dokter"
             android:parentActivityName=".MainActivity" />
 
-        <!-- confirmation page (optional if used) -->
+        <!-- Confirmation page -->
         <activity
             android:name=".ConfirmationActivity"
             android:label="Konfirmasi Janji"
             android:parentActivityName=".ScheduleActivity" />
 
-        <activity android:name=".DoctorListActivity" />
-
-
+        <!-- Doctor list -->
+        <activity
+            android:name=".DoctorListActivity"
+            android:label="Daftar Dokter"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <!-- ✅ Halaman Profil Pengguna -->
+
+        <!-- User profile -->
         <activity
             android:name=".UserActivity"
             android:label="Profil Pengguna"
@@ -67,5 +68,5 @@
                 android:value=".MainActivity" />
         </activity>
 
-
+    </application>
 </manifest>
