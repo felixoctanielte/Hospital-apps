@@ -146,32 +146,40 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:columnCount="3"
-                    android:rowCount="2"
                     android:layout_marginTop="8dp">
 
                     <Button
+                        android:id="@+id/btn_psikiater"
                         style="@style/CategoryButton"
-                        android:text="Psikiater"/>
+                        android:layout_row="0"
+                        android:layout_column="0"
+                        android:text="Psikiater" />
 
                     <Button
+                        android:id="@+id/btn_jantung"
                         style="@style/CategoryButton"
                         android:text="Jantung"/>
 
                     <Button
+                        android:id="@+id/btn_gigi"
                         style="@style/CategoryButton"
                         android:text="Gigi"/>
 
                     <Button
+                        android:id="@+id/btn_kehamilan"
                         style="@style/CategoryButton"
                         android:text="Kehamilan"/>
 
                     <Button
+                        android:id="@+id/btn_paru"
                         style="@style/CategoryButton"
                         android:text="Paru - Paru"/>
 
                     <Button
+                        android:id="@+id/btn_lainnya"
                         style="@style/CategoryButton"
                         android:text="+"/>
+
                 </GridLayout>
 
                 <!-- Reminder Box -->
