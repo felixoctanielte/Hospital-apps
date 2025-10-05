@@ -1,6 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="150dp"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="#DDDDDD"
     android:padding="16dp">
@@ -25,8 +25,16 @@
         android:id="@+id/txtLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Login/Daftar"
-        android:textSize="14sp"
-        android:textColor="@android:color/holo_blue_dark" />
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        android:paddingBottom="4dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:text="Sambungkan akun anda?"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:gravity="center_horizontal" />
 
 </LinearLayout>
