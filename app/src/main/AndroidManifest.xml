@@ -43,7 +43,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-
+        <!-- ✅ Halaman Profil Pengguna -->
+        <activity
+            android:name=".UserActivity"
+            android:label="Profil Pengguna"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
     </application>
 
 </manifest>

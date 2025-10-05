@@ -44,18 +44,22 @@ class MainActivity : AppCompatActivity() {
         navView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.nav_antrian -> {
-                    // buka halaman baru
                     val intent = Intent(this, AntrianActivity::class.java)
                     startActivity(intent)
                 }
                 R.id.nav_jadwal -> showToast("Jadwal Dokter diklik")
+
                 R.id.nav_riwayat -> {
                     val intent = Intent(this, PerawatanActivity::class.java)
                     startActivity(intent)
                 }
 
-                R.id.nav_profil -> showToast("Profil diklik")
+                R.id.nav_profil -> {
+                    val intent = Intent(this, UserActivity::class.java)
+                    startActivity(intent)
+                }
             }
+
 
             drawerLayout.closeDrawer(GravityCompat.START)
             true
