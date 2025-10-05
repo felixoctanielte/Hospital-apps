@@ -24,12 +24,21 @@
             </intent-filter>
         </activity>
 
-        <!-- ✅ Tambahkan activity baru untuk Riwayat -->
+        <!-- Halaman Antrian -->
         <activity
             android:name=".AntrianActivity"
+            android:label="Cek Antrian"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+
+        <!-- ✅ Tambahkan halaman Riwayat Perawatan -->
+        <activity
+            android:name=".PerawatanActivity"
             android:label="Riwayat Perawatan"
             android:parentActivityName=".MainActivity">
-            <!-- Supaya tombol back otomatis kembali ke MainActivity -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />

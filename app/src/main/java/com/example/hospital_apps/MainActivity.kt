@@ -49,7 +49,11 @@ class MainActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
                 R.id.nav_jadwal -> showToast("Jadwal Dokter diklik")
-                R.id.nav_riwayat -> showToast("Cek Antrian diklik")
+                R.id.nav_riwayat -> {
+                    val intent = Intent(this, PerawatanActivity::class.java)
+                    startActivity(intent)
+                }
+
                 R.id.nav_profil -> showToast("Profil diklik")
             }
 

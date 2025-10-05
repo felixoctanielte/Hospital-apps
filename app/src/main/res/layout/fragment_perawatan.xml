@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".PerawatanActivity">
+
+    <!-- Header -->
+    <RelativeLayout
+        android:layout_marginTop="40dp"
+        android:clipToPadding="false"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:paddingTop="140dp"
+        android:paddingBottom="16dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:background="@color/white"
+        android:elevation="4dp">
+
+        <!-- Tombol Back -->
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_arrow_back"
+            android:tint="@color/black"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="16dp" />
+
+        <!-- Judul Tengah -->
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Riwayat Perawatan"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="4dp" />
+    </RelativeLayout>
+
+    <!-- Garis pemisah -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black" />
+
+    <!-- ScrollView isi -->
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp"
+        android:clipToPadding="false">
+
+        <LinearLayout
+            android:id="@+id/containerTanggal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Tahun -->
+            <TextView
+                android:id="@+id/tvTahun"
+                android:text="2025"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginVertical="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <!-- Bagian tanggal (Okt 1–3) -->
+            <include layout="@layout/item_perawatan_tanggal" android:id="@+id/sectionOkt1" />
+            <include layout="@layout/item_perawatan_tanggal" android:id="@+id/sectionOkt2" />
+            <include layout="@layout/item_perawatan_tanggal" android:id="@+id/sectionOkt3" />
+
+            <!-- Bagian tersembunyi -->
+            <LinearLayout
+                android:id="@+id/hiddenSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <include layout="@layout/item_perawatan_tanggal" android:id="@+id/sectionOkt4" />
+                <include layout="@layout/item_perawatan_tanggal" android:id="@+id/sectionOkt5" />
+                <include layout="@layout/item_perawatan_tanggal" android:id="@+id/sectionOkt6" />
+                <include layout="@layout/item_perawatan_tanggal" android:id="@+id/sectionOkt7" />
+                <include layout="@layout/item_perawatan_tanggal" android:id="@+id/sectionOkt8" />
+            </LinearLayout>
+
+            <!-- Tombol See More -->
+            <TextView
+                android:id="@+id/btnSeeMore"
+                android:text="See More"
+                android:textAlignment="center"
+                android:textColor="@color/blue"
+                android:textStyle="bold"
+                android:layout_marginTop="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
