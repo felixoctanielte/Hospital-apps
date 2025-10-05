@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Hospitalapps">
 
-        <!-- Activity utama -->
+        <!-- Main activity -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -24,26 +24,31 @@
             </intent-filter>
         </activity>
 
-        <!-- Halaman Antrian -->
+        <!-- Queue activity -->
         <activity
             android:name=".AntrianActivity"
             android:label="Cek Antrian"
-            android:parentActivityName=".MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
+            android:parentActivityName=".MainActivity" />
 
-        <!-- ✅ Tambahkan halaman Riwayat Perawatan -->
+        <!-- Treatment history -->
         <activity
             android:name=".PerawatanActivity"
             android:label="Riwayat Perawatan"
-            android:parentActivityName=".MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
+            android:parentActivityName=".MainActivity" />
+
+        <!-- schedule page -->
+        <activity
+            android:name=".ScheduleActivity"
+            android:label="Jadwal Dokter"
+            android:parentActivityName=".MainActivity" />
+
+        <!-- confirmation page (optional if used) -->
+        <activity
+            android:name=".ConfirmationActivity"
+            android:label="Konfirmasi Janji"
+            android:parentActivityName=".ScheduleActivity" />
+
+        <activity android:name=".DoctorListActivity" />
 
     </application>
-
 </manifest>
