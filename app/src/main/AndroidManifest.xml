@@ -76,7 +76,7 @@
 
 
 
-        <!-- 🔹 Tambahkan ini -->
+        <!-- edit profile user -->
         <activity
             android:name=".EditUserActivity"
             android:label="Edit Data Diri"
