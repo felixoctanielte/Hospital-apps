@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_dashboard"
+        android:icon="@drawable/ic_admin"
+        android:title="Dashboard" />
+    <item android:id="@+id/nav_antrian" android:title="Cek Antrian" android:icon="@drawable/ic_queue" />
+    <item android:id="@+id/nav_riwayat" android:title="Riwayat Perawatan" android:icon="@drawable/ic_history" />
+    <item
+        android:id="@+id/nav_profile"
+        android:title="Profil Dokter"
+        android:icon="@drawable/ic_person" />
+
+    <item
+        android:id="@+id/nav_logout"
+        android:icon="@drawable/ic_pregnant"
+        android:title="Logout" />
+</menu>

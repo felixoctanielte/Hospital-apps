@@ -37,13 +37,21 @@ class LoginActivity : AppCompatActivity() {
                 val intent = Intent(this, AdminActivity::class.java)
                 startActivity(intent)
                 finish()
+            } else if (email.equals("dokter@gmail.com", ignoreCase = true) && password == "12345") {
+                Toast.makeText(this, "Login sebagai Dokter", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, DoctorActivity::class.java)
+                startActivity(intent)
+                finish()
+
             } else {
                 Toast.makeText(this, "Login sebagai User", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 finish()
             }
+
         }
+
 
         btnGoogle.setOnClickListener {
             Toast.makeText(this, "Login dengan Google berhasil 🎉", Toast.LENGTH_SHORT).show()

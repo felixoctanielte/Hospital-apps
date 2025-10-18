@@ -32,6 +32,12 @@
                 android:resource="@xml/file_paths" />
         </provider>
         <activity android:name=".MapActivity" />
+        <activity android:name=".DoctorActivity" />
+
+        <activity android:name=".ProfilActivity" />
+
+
+
         <!-- Launcher (pertama kali dibuka) -->
         <activity
             android:name=".MainActivity"
