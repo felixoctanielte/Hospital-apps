@@ -5,277 +5,294 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Konten utama -->
-    <LinearLayout
+    <!-- Root FrameLayout untuk menumpuk scrollable content dan tombol bottom -->
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@android:color/white">
+        android:layout_height="match_parent">
 
-        <!-- ================= HEADER ================= -->
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="250dp">
-
-            <!-- Background biru -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#03C4F4" />
-
-            <!-- Pola hexagon -->
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/hexagon"
-                android:scaleType="centerCrop"
-                android:alpha="0.7" />
-
-            <!-- Icon menu -->
-            <ImageView
-                android:id="@+id/menuIcon"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:src="@drawable/ic_menu"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="32dp"
-                android:layout_gravity="start|top"
-                android:clickable="true"
-                android:focusable="true" />
-
-
-
-
-            <!-- Bagian teks -->
-            <!-- Dokter di bawah -->
-            <ImageView
-                android:id="@+id/doctorImage"
-                android:layout_width="200dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="end|bottom"
-                android:adjustViewBounds="true"
-                android:scaleType="fitEnd"
-                android:src="@drawable/doctor" />
-
-            <!-- Bagian teks -->
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp">
-
-                <!-- Teks "CARING FOR LIFE" -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start|top"
-                    android:layout_marginTop="90dp"
-                    android:text="CARING FOR LIFE"
-                    android:textColor="@android:color/white"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <!-- Teks utama (menimpa gambar dokter) -->
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start|top"
-                    android:layout_marginTop="110dp"
-                    android:elevation="6dp"
-                    android:paddingEnd="32dp"
-                    android:text="Leading the Way nin Medical\ Excellence"
-                    android:textColor="#082A45"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <!-- Tombol -->
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start|top"
-                    android:layout_marginTop="170dp"
-                    android:background="@drawable/bg_button_primary"
-                    android:text="Our Services"
-                    android:textColor="@color/black"
-                    android:textSize="12sp"
-                    android:paddingHorizontal="14dp"
-                    android:paddingVertical="6dp"
-                    android:elevation="2dp" />
-
-            </FrameLayout>
-
-
-        </FrameLayout>
-
-        <!-- ================= ISI SCROLL ================= -->
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="-25dp"
-            android:background="@drawable/search_bg"
-            android:drawableStart="@android:drawable/ic_menu_search"
-            android:hint="Apa keluhan anda?"
-            android:inputType="text"
-            android:paddingStart="16dp" />
-
+        <!-- Scrollable Content -->
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:paddingBottom="80dp"> <!-- space supaya tombol tidak menutupi -->
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:background="@android:color/white">
 
-                <!-- Search bar -->
-
-                <!-- Kategori -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Kategori"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="16dp"/>
-
-                <GridLayout
+                <!-- ================= HEADER ================= -->
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:columnCount="3"
-                    android:layout_marginTop="8dp">
+                    android:layout_height="250dp">
 
-                    <Button
-                        android:id="@+id/btn_psikiater"
-                        style="@style/CategoryButton"
-                        android:layout_row="0"
-                        android:layout_column="0"
-                        android:text="Psikiater" />
+                    <!-- Background biru -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#03C4F4" />
 
-                    <Button
-                        android:id="@+id/btn_jantung"
-                        style="@style/CategoryButton"
-                        android:text="Jantung"/>
+                    <!-- Pola hexagon -->
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/hexagon"
+                        android:scaleType="centerCrop"
+                        android:alpha="0.7" />
 
-                    <Button
-                        android:id="@+id/btn_gigi"
-                        style="@style/CategoryButton"
-                        android:text="Gigi"/>
+                    <!-- Icon menu -->
+                    <ImageView
+                        android:id="@+id/menuIcon"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/ic_menu"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="32dp"
+                        android:layout_gravity="start|top"
+                        android:clickable="true"
+                        android:focusable="true" />
 
-                    <Button
-                        android:id="@+id/btn_kehamilan"
-                        style="@style/CategoryButton"
-                        android:text="Kehamilan"/>
+                    <!-- Dokter di bawah -->
+                    <ImageView
+                        android:id="@+id/doctorImage"
+                        android:layout_width="200dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="end|bottom"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitEnd"
+                        android:src="@drawable/doctor" />
 
-                    <Button
-                        android:id="@+id/btn_paru"
-                        style="@style/CategoryButton"
-                        android:text="Paru - Paru"/>
+                    <!-- Bagian teks -->
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp">
 
-                    <Button
-                        android:id="@+id/btn_lainnya"
-                        style="@style/CategoryButton"
-                        android:text="+"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start|top"
+                            android:layout_marginTop="90dp"
+                            android:text="CARING FOR LIFE"
+                            android:textColor="@android:color/white"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
 
-                </GridLayout>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start|top"
+                            android:layout_marginTop="110dp"
+                            android:elevation="6dp"
+                            android:paddingEnd="32dp"
+                            android:text="Leading the Way nin Medical Excellence"
+                            android:textColor="#082A45"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
 
-                <!-- Reminder Box -->
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start|top"
+                            android:layout_marginTop="170dp"
+                            android:background="@drawable/bg_button_primary"
+                            android:text="Our Services"
+                            android:textColor="@color/black"
+                            android:textSize="12sp"
+                            android:paddingHorizontal="14dp"
+                            android:paddingVertical="6dp"
+                            android:elevation="2dp" />
+
+                    </FrameLayout>
+                </FrameLayout>
+
+                <!-- ================= SEARCH BAR ================= -->
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="-25dp"
+                    android:background="@drawable/search_bg"
+                    android:drawableStart="@android:drawable/ic_menu_search"
+                    android:hint="Apa keluhan anda?"
+                    android:inputType="text"
+                    android:paddingStart="16dp" />
+
+                <!-- ================= KATEGORI ================= -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#B3E5FC"
-                    android:orientation="horizontal"
-                    android:padding="12dp"
-                    android:layout_marginTop="16dp">
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-                    <LinearLayout
-                        android:layout_width="0dp"
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:text="Kategori"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="16dp"/>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Reminder Box"
-                            android:textStyle="bold"
-                            android:textColor="#000"/>
+                    <GridLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:columnCount="3"
+                        android:layout_marginTop="8dp">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Anda punya janji dengan “Dr. Brando”"
-                            android:layout_marginTop="4dp"/>
+                        <Button
+                            android:id="@+id/btn_psikiater"
+                            style="@style/CategoryButton"
+                            android:text="Psikiater" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <Button
+                            android:id="@+id/btn_jantung"
+                            style="@style/CategoryButton"
+                            android:text="Jantung"/>
+
+                        <Button
+                            android:id="@+id/btn_gigi"
+                            style="@style/CategoryButton"
+                            android:text="Gigi"/>
+
+                        <Button
+                            android:id="@+id/btn_kehamilan"
+                            style="@style/CategoryButton"
+                            android:text="Kehamilan"/>
+
+                        <Button
+                            android:id="@+id/btn_paru"
+                            style="@style/CategoryButton"
+                            android:text="Paru - Paru"/>
+
+                        <Button
+                            android:id="@+id/btn_lainnya"
+                            style="@style/CategoryButton"
+                            android:text="+"/>
+                    </GridLayout>
+
+                    <!-- ================= REMINDER BOX ================= -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#B3E5FC"
+                        android:orientation="horizontal"
+                        android:padding="12dp"
+                        android:layout_marginTop="16dp">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="13 Oktober 2025\n09:00 WIB"
-                            android:textSize="12sp"
-                            android:layout_marginTop="2dp"/>
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Reminder Box"
+                                android:textStyle="bold"
+                                android:textColor="#000"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:text="Anda punya janji dengan “Dr. Brando”" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="13 Oktober 2025\n09:00 WIB"
+                                android:textSize="12sp"
+                                android:layout_marginTop="2dp"/>
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:src="@drawable/doctor"
+                            android:scaleType="fitCenter"/>
                     </LinearLayout>
 
-                    <ImageView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:src="@drawable/doctor"
-                        android:scaleType="fitCenter"/>
-                </LinearLayout>
-
-                <!-- Antrian Box -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#B3E5FC"
-                    android:orientation="vertical"
-                    android:padding="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="32dp"
-                    android:elevation="2dp"
-                    android:clipToOutline="true">
-
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <!-- ================= ANTRIAN BOX ================= -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="RS Land Of Dawn"
-                        android:textStyle="bold"
-                        android:textSize="16sp"
-                        android:textColor="#004D40"/>
+                        android:background="#B3E5FC"
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="32dp"
+                        android:elevation="2dp"
+                        android:clipToOutline="true">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Pasien : Antonio Momoco Sanchez"
-                        android:layout_marginTop="8dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="RS Land Of Dawn"
+                            android:textStyle="bold"
+                            android:textSize="16sp"
+                            android:textColor="#004D40"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Dokter : dr. Brando, Sp. JP\nPoli : Jantung\nJam : 09:00"
-                        android:layout_marginTop="8dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Pasien : Antonio Momoco Sanchez"
+                            android:layout_marginTop="8dp"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Antrian : B-13\nEstimasi : 20 Menit"
-                        android:textColor="#D32F2F"
-                        android:layout_marginTop="8dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Dokter : dr. Brando, Sp. JP\nPoli : Jantung\nJam : 09:00"
+                            android:layout_marginTop="8dp"/>
 
-                    <ImageView
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:layout_gravity="center_horizontal"
-                        android:src="@drawable/qr_code"
-                        android:layout_marginTop="12dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Antrian : B-13\nEstimasi : 20 Menit"
+                            android:textColor="#D32F2F"
+                            android:layout_marginTop="8dp"/>
+
+                        <ImageView
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/qr_code"
+                            android:layout_marginTop="12dp"/>
+                    </LinearLayout>
+
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>
-    </LinearLayout>
 
-    <!-- Drawer -->
+        <!-- ================= TOMBOL CAMERA MELAYANG DI ATAS BAR PUTIH ================= -->
+        <!-- ================= AREA BAWAH ================= -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:clipChildren="false"
+            android:clipToPadding="false">
+             <!-- Tombol melayang di atas bar -->
+            <ImageButton
+                android:id="@+id/btn_camera"
+                android:layout_width="120dp"
+                android:layout_height="110dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="55dp"
+                android:background="@drawable/bg_glow_button"
+                android:src="@drawable/barcode_cam"
+                android:scaleType="centerInside"
+                android:contentDescription="Scan QR"
+                android:elevation="20dp" />
+        </FrameLayout>
+
+
+
+    </FrameLayout>
+
+    <!-- ================= DRAWER ================= -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigationView"
         android:layout_width="wrap_content"
@@ -284,4 +301,5 @@
         android:background="@drawable/nav_drawer_bg"
         app:headerLayout="@layout/nav_header"
         app:menu="@menu/nav_menu"/>
+
 </androidx.drawerlayout.widget.DrawerLayout>

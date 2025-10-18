@@ -51,6 +51,8 @@ android {
 }
 
 dependencies {
+    // ML Kit Barcode Scanning
+    implementation("com.google.mlkit:barcode-scanning:17.0.2")
     //api(Retrofit & Gson)
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
