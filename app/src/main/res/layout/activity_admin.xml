@@ -276,7 +276,10 @@
 
                         <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#000000" />
                     </TableLayout>
-
+                <FrameLayout
+                    android:id="@+id/fragment_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
 
             </LinearLayout>
 

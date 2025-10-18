@@ -36,6 +36,11 @@
             android:exported="false"
             android:label="Admin Dashboard" />
 
+        <!-- Tambahkan ShowActivity -->
+        <activity
+            android:name=".ShowActivity"
+            android:label="Detail Data" />
+
         <!-- Aktivitas lain -->
         <activity android:name=".AntrianActivity" android:label="Cek Antrian" />
         <activity android:name=".PerawatanActivity" android:label="Riwayat Perawatan" />
@@ -47,4 +52,6 @@
         <activity android:name=".DiseaseSearchActivity" />
 
     </application>
+
+
 </manifest>

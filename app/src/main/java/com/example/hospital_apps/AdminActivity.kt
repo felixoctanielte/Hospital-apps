@@ -1,5 +1,6 @@
 package com.example.hospital_apps
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.Toast
@@ -28,16 +29,35 @@ class AdminActivity : AppCompatActivity() {
             drawerLayout.openDrawer(GravityCompat.START)
         }
 
-        navView.setNavigationItemSelectedListener { menuItem ->
+        setupDrawerContent(navView)
+
+        // Fragment default bisa kosong / dashboard
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, DashboardFragment()) // Fragment kosong / info singkat
+            .commit()
+    }
+
+    private fun setupDrawerContent(navigationView: NavigationView) {
+        navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.nav_master_data ->
-                    Toast.makeText(this, "Buka Master Data", Toast.LENGTH_SHORT).show()
-                R.id.nav_verifikasi ->
-                    Toast.makeText(this, "Buka Verifikasi", Toast.LENGTH_SHORT).show()
-                R.id.nav_laporan ->
-                    Toast.makeText(this, "Buka Laporan", Toast.LENGTH_SHORT).show()
-                R.id.nav_cetak ->
-                    Toast.makeText(this, "Buka Cetak Data", Toast.LENGTH_SHORT).show()
+                R.id.nav_master_data -> {
+                    val intent = Intent(this, ShowActivity::class.java)
+                    intent.putExtra("type", "dokter") // langsung ke ShowActivity dokter
+                    startActivity(intent)
+                }
+                R.id.nav_verifikasi -> {
+                    val intent = Intent(this, ShowActivity::class.java)
+                    intent.putExtra("type", "pasien") // langsung ke ShowActivity pasien
+                    startActivity(intent)
+                }
+                R.id.nav_laporan -> {
+                    val intent = Intent(this, ShowActivity::class.java)
+                    intent.putExtra("type", "poli") // langsung ke ShowActivity poli
+                    startActivity(intent)
+                }
+                R.id.nav_cetak -> {
+                    Toast.makeText(this, "Buka Cetak Laporan", Toast.LENGTH_SHORT).show()
+                }
             }
             drawerLayout.closeDrawer(GravityCompat.START)
             true

@@ -51,6 +51,12 @@ android {
 }
 
 dependencies {
+    implementation("androidx.cardview:cardview:1.0.0")
+    implementation("androidx.recyclerview:recyclerview:1.3.1")
+    implementation("androidx.appcompat:appcompat:1.7.0")
+    implementation("com.google.android.material:material:1.9.0")
+    implementation("com.google.android.material:material:1.9.0")
+    implementation("androidx.viewpager2:viewpager2:1.1.0")
     implementation("com.google.android.material:material:1.11.0")
     //api(Retrofit & Gson)
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
