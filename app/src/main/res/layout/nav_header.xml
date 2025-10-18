@@ -16,7 +16,7 @@
         android:id="@+id/txtUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="guest81724687"
+        android:text="guest"
         android:textSize="16sp"
         android:layout_marginTop="8dp"
         android:textColor="@android:color/black" />
