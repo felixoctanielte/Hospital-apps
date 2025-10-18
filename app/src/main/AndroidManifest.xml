@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:networkSecurityConfig="@xml/network_security_config"
-
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -15,72 +15,35 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Hospitalapps">
 
-        <!-- Main activity -->
+        <!-- Launcher (pertama kali dibuka) -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.Hospitalapps">
+            android:label="@string/app_name">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
-        <!-- Queue activity -->
-        <activity
-            android:name=".AntrianActivity"
-            android:label="Cek Antrian"
-            android:parentActivityName=".MainActivity" />
-
-        <!-- Treatment history -->
-        <activity
-            android:name=".PerawatanActivity"
-            android:label="Riwayat Perawatan"
-            android:parentActivityName=".MainActivity" />
-
-        <!-- Schedule page -->
-        <activity
-            android:name=".ScheduleActivity"
-            android:label="Jadwal Dokter"
-            android:parentActivityName=".MainActivity" />
-
-        <!-- Confirmation page -->
-        <activity
-            android:name=".ConfirmationActivity"
-            android:label="Konfirmasi Janji"
-            android:parentActivityName=".ScheduleActivity" />
-
-        <!-- Doctor list -->
-        <activity
-            android:name=".DoctorListActivity"
-            android:label="Daftar Dokter"
-            android:parentActivityName=".MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
-
-        <!-- User profile -->
-        <activity
-            android:name=".UserActivity"
-            android:label="Profil Pengguna"
-            android:parentActivityName=".MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
-
+        <!-- Login dan Register -->
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity" />
 
-
-
-        <!-- edit profile user -->
+        <!-- Halaman Admin -->
         <activity
-            android:name=".EditUserActivity"
-            android:label="Edit Data Diri"
-            android:parentActivityName=".UserActivity" />
+            android:name=".AdminActivity"
+            android:exported="false"
+            android:label="Admin Dashboard" />
+
+        <!-- Aktivitas lain -->
+        <activity android:name=".AntrianActivity" android:label="Cek Antrian" />
+        <activity android:name=".PerawatanActivity" android:label="Riwayat Perawatan" />
+        <activity android:name=".ScheduleActivity" android:label="Jadwal Dokter" />
+        <activity android:name=".ConfirmationActivity" android:label="Konfirmasi Janji" />
+        <activity android:name=".DoctorListActivity" android:label="Daftar Dokter" />
+        <activity android:name=".UserActivity" android:label="Profil Pengguna" />
+        <activity android:name=".EditUserActivity" android:label="Edit Data Diri" />
         <activity android:name=".DiseaseSearchActivity" />
 
     </application>
