@@ -26,13 +26,14 @@ class DataPasienFragment : Fragment() {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
 
-        val data = listOf(
+        val data = mutableListOf(
             Pasien("Mamat Reza", "Jantung"),
             Pasien("Faiz Lembayung", "Gigi"),
             Pasien("Siti Aminah", "Anak")
         )
 
         recyclerView.adapter = PasienAdapter(requireContext(), data)
+
         return view
     }
 }

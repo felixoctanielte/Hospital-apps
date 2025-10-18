@@ -50,12 +50,14 @@ class AdminActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
                 R.id.nav_laporan -> {
-                    val intent = Intent(this, ShowActivity::class.java)
-                    intent.putExtra("type", "poli")
+                    Toast.makeText(this, "Menu laporan diklik", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, AdminLaporanActivity::class.java)
                     startActivity(intent)
                 }
-                R.id.nav_cetak -> {
-                    Toast.makeText(this, "Buka Cetak Laporan", Toast.LENGTH_SHORT).show()
+                R.id.nav_logout -> {
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
                 }
             }
             // Tutup drawer

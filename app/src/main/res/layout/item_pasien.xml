@@ -17,6 +17,19 @@
         android:background="@drawable/bg_hexagon_blue_overlay"
         android:padding="16dp">
 
+        <!-- STATUS -->
+        <TextView
+            android:id="@+id/tv_status_pasien"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Status: Belum Terverifikasi"
+            android:textColor="#FFA000"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:layout_gravity="end"
+            android:layout_marginBottom="6dp"/>
+
+        <!-- NAMA -->
         <TextView
             android:id="@+id/tv_nama_pasien"
             android:layout_width="match_parent"
@@ -27,6 +40,7 @@
             android:textStyle="bold"
             android:fontFamily="sans-serif-medium" />
 
+        <!-- POLI -->
         <TextView
             android:id="@+id/tv_poli_pasien"
             android:layout_width="match_parent"
@@ -36,6 +50,7 @@
             android:textSize="14sp"
             android:layout_marginTop="4dp" />
 
+        <!-- TOMBOL -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

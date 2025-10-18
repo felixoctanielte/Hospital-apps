@@ -121,7 +121,10 @@
                 android:elevation="6dp"
                 android:orientation="vertical"
                 android:padding="12dp">
-
+                <FrameLayout
+                    android:id="@+id/fragment_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -276,10 +279,7 @@
 
                         <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#000000" />
                     </TableLayout>
-                <FrameLayout
-                    android:id="@+id/fragment_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+
 
             </LinearLayout>
 
@@ -489,7 +489,7 @@
         android:layout_width="260dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="#E0E0E0"
+        android:background="@drawable/nav_drawer_bg"
         app:menu="@menu/admin_menu"
         app:headerLayout="@layout/nav_header_admin" />
 

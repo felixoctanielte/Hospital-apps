@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="#FFFFFF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <Button
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kembali"
+            android:backgroundTint="#2196F3"
+            android:textColor="@android:color/white"
+            android:layout_gravity="start"
+            android:layout_marginBottom="8dp"/>
+        <!-- 🔹 Filter Laporan Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp"
+            android:clipToOutline="true"
+            android:elevation="2dp"
+            android:background="@drawable/bg_rounded_lightblue">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Filter Laporan"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="#082A45"
+                android:layout_marginBottom="12dp" />
+
+            <!-- 🔸 Baris Filter -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:dividerPadding="8dp"
+                android:showDividers="middle">
+
+                <!-- Tanggal -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="8dp">
+
+                    <TextView
+                        android:text="Tanggal"
+                        android:textStyle="bold"
+                        android:textColor="#082A45"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <EditText
+                        android:id="@+id/et_start_date"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="10 Okt 2025"
+                        android:inputType="date"
+                        android:background="@drawable/bg_edittext"
+                        android:padding="8dp"
+                        android:textSize="14sp"
+                        android:layout_marginEnd="8dp" />
+
+                    <EditText
+                        android:id="@+id/et_end_date"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="11 Okt 2025"
+                        android:inputType="date"
+                        android:background="@drawable/bg_edittext"
+                        android:padding="8dp"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <!-- Poli -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="8dp">
+
+                    <TextView
+                        android:text="Poli"
+                        android:textStyle="bold"
+                        android:textColor="#082A45"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <Spinner
+                        android:id="@+id/sp_poli"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:background="@drawable/bg_spinner" />
+                </LinearLayout>
+
+                <!-- Dokter -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="8dp">
+
+                    <TextView
+                        android:text="Dokter"
+                        android:textStyle="bold"
+                        android:textColor="#082A45"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <Spinner
+                        android:id="@+id/sp_dokter"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:background="@drawable/bg_spinner" />
+                </LinearLayout>
+
+                <!-- Status -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="12dp">
+
+                    <TextView
+                        android:text="Status"
+                        android:textStyle="bold"
+                        android:textColor="#082A45"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <Spinner
+                        android:id="@+id/sp_status"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:background="@drawable/bg_spinner" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Tombol Tampilkan -->
+            <Button
+                android:id="@+id/btn_filter_tampilkan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tampilkan Laporan"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:backgroundTint="#B71C1C"
+                android:layout_gravity="end" />
+        </LinearLayout>
+
+        <!-- 🔹 Scroll horizontal khusus tabel -->
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="horizontal">
+
+            <TableLayout
+                android:id="@+id/table_laporan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:stretchColumns="*"
+                android:background="#FFFFFF"
+                android:elevation="2dp"
+                android:padding="4dp"
+                android:layout_marginBottom="16dp">
+
+                <TableRow>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="No" android:textStyle="bold" android:padding="6dp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Nama Pasien" android:textStyle="bold" android:padding="6dp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="NIK" android:textStyle="bold" android:padding="6dp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Poli" android:textStyle="bold" android:padding="6dp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Dokter" android:textStyle="bold" android:padding="6dp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Tanggal" android:textStyle="bold" android:padding="6dp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Verif" android:textStyle="bold" android:padding="6dp"/>
+                </TableRow>
+            </TableLayout>
+        </HorizontalScrollView>
+
+        <!-- 🔹 Detail Laporan -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:background="@drawable/bg_rounded_lightblue">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Detail Laporan"
+                android:textColor="#22A322"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginBottom="12dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#082A45"
+                android:layout_marginBottom="8dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Tanggal: 10 Okt 2025" android:textStyle="bold" android:textColor="#082A45" android:layout_marginBottom="6dp"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Poli: Poli A" android:textStyle="bold" android:textColor="#082A45" android:layout_marginBottom="6dp"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Dokter: Dokter A" android:textStyle="bold" android:textColor="#082A45" android:layout_marginBottom="6dp"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Status: Semua" android:textStyle="bold" android:textColor="#082A45" android:layout_marginBottom="12dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+
+
+                <Button
+                    android:id="@+id/btn_unduh_pdf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Unduh PDF"
+                    android:layout_marginStart="10dp"
+                    android:backgroundTint="@color/teal_700"
+                    android:textColor="@android:color/white"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
