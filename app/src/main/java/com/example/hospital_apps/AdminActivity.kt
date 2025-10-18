@@ -42,25 +42,32 @@ class AdminActivity : AppCompatActivity() {
             when (menuItem.itemId) {
                 R.id.nav_master_data -> {
                     val intent = Intent(this, ShowActivity::class.java)
-                    intent.putExtra("type", "dokter") // langsung ke ShowActivity dokter
+                    intent.putExtra("type", "dokter")
                     startActivity(intent)
                 }
                 R.id.nav_verifikasi -> {
-                    val intent = Intent(this, ShowActivity::class.java)
-                    intent.putExtra("type", "pasien") // langsung ke ShowActivity pasien
+                    val intent = Intent(this, VerifikasiPasienActivity::class.java)
                     startActivity(intent)
                 }
                 R.id.nav_laporan -> {
                     val intent = Intent(this, ShowActivity::class.java)
-                    intent.putExtra("type", "poli") // langsung ke ShowActivity poli
+                    intent.putExtra("type", "poli")
                     startActivity(intent)
                 }
                 R.id.nav_cetak -> {
                     Toast.makeText(this, "Buka Cetak Laporan", Toast.LENGTH_SHORT).show()
                 }
             }
+            // Tutup drawer
             drawerLayout.closeDrawer(GravityCompat.START)
+
+            // Reset highlight menu
+            for (i in 0 until navigationView.menu.size()) {
+                navigationView.menu.getItem(i).isChecked = false
+            }
+
             true
         }
     }
+
 }

@@ -40,6 +40,7 @@
         <activity
             android:name=".ShowActivity"
             android:label="Detail Data" />
+        <activity android:name=".VerifikasiPasienActivity" />
 
         <!-- Aktivitas lain -->
         <activity android:name=".AntrianActivity" android:label="Cek Antrian" />
