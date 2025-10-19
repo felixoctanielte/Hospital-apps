@@ -112,6 +112,7 @@
                     android:background="@drawable/search_bg"
                     android:drawableStart="@android:drawable/ic_menu_search"
                     android:hint="Apa keluhan anda?"
+                    android:textColor="#000000"
                     android:inputType="text"
                     android:paddingStart="16dp" />
 
@@ -126,6 +127,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Kategori"
+                        android:textColor="#000000"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:layout_marginTop="16dp" />
@@ -284,53 +286,57 @@
                     </GridLayout>
 
                     <!-- ================= ANTRIAN BOX ================= -->
+
+                    <!-- ================= MAP PREVIEW BOX ================= -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="#B3E5FC"
-                        android:orientation="vertical"
-                        android:padding="16dp"
                         android:layout_marginTop="16dp"
                         android:layout_marginBottom="16dp"
+                        android:background="#B3E5FC"
+                        android:clipToOutline="true"
                         android:elevation="2dp"
-                        android:clipToOutline="true">
+                        android:orientation="vertical"
+                        android:padding="16dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="RS Land Of Dawn"
-                            android:textStyle="bold"
+
+                            android:textColor="#004D40"
                             android:textSize="16sp"
-                            android:textColor="#004D40" />
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
                             android:text="Pasien : Antonio Momoco Sanchez"
-                            android:layout_marginTop="8dp" />
+                            android:textColor="#000000" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
                             android:text="Dokter : dr. Brando, Sp. JP\nPoli : Jantung\nJam : 09:00"
-                            android:layout_marginTop="8dp" />
+                            android:textColor="#000000" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
                             android:text="Antrian : B-13\nEstimasi : 20 Menit"
-                            android:textColor="#D32F2F"
-                            android:layout_marginTop="8dp" />
+                            android:textColor="#D32F2F" />
 
                         <ImageView
                             android:layout_width="80dp"
                             android:layout_height="80dp"
                             android:layout_gravity="center_horizontal"
-                            android:src="@drawable/qr_code"
-                            android:layout_marginTop="12dp" />
+                            android:layout_marginTop="12dp"
+                            android:src="@drawable/qr_code" />
                     </LinearLayout>
 
-                    <!-- ================= MAP PREVIEW BOX ================= -->
                     <LinearLayout
                         android:id="@+id/mapBox"
                         android:layout_width="match_parent"
@@ -369,13 +375,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+
             android:clipChildren="false"
             android:clipToPadding="false">
 
             <ImageButton
                 android:id="@+id/btn_camera"
-                android:layout_width="120dp"
-                android:layout_height="110dp"
+                android:layout_width="110dp"
+                android:layout_height="100dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="55dp"
                 android:background="@drawable/bg_glow_button"

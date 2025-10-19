@@ -38,7 +38,7 @@
 
 
 
-        <!-- Launcher (pertama kali dibuka) -->
+        <!-- Launcher -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
