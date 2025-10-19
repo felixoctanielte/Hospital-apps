@@ -1,4 +1,4 @@
-# 🏥 Clinic N Quick  
+# 🏥 Clinic & Quick  
 **Aplikasi Rumah Sakit Rawat Jalan**  
 _Mobile Application Programming – UTS Project_
 
