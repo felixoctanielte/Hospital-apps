@@ -5,7 +5,7 @@ _Mobile Application Programming – UTS Project_
 ---
 
 ## 📖 Deskripsi Aplikasi
-**Clinic N Quick** adalah aplikasi mobile berbasis **Android** yang dirancang untuk meningkatkan efisiensi sistem **antrian rawat jalan di rumah sakit**.  
+**Clinic & Quick** adalah aplikasi mobile berbasis **Android** yang dirancang untuk meningkatkan efisiensi sistem **antrian rawat jalan di rumah sakit**.  
 Melalui aplikasi ini, pasien dapat melakukan **pendaftaran poli online**, memilih dokter dan jadwal praktik, serta memantau **status antrian secara real-time** tanpa harus menunggu lama di rumah sakit.
 
 Aplikasi ini juga dilengkapi dengan fitur **Machine Learning** untuk memperkirakan **estimasi waktu tunggu pasien**, berdasarkan data historis antrian dan durasi pelayanan dokter.  
