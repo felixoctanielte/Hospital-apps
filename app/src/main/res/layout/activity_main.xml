@@ -6,16 +6,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- ================= ROOT FRAME ================= -->
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- ================= SCROLLABLE CONTENT ================= -->
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="80dp">
+            android:paddingBottom="100dp"
+            android:clipToPadding="false">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -23,7 +22,6 @@
                 android:orientation="vertical"
                 android:background="@android:color/white">
 
-                <!-- ================= HEADER ================= -->
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="250dp">
@@ -103,7 +101,6 @@
                     </FrameLayout>
                 </FrameLayout>
 
-                <!-- ================= SEARCH BAR ================= -->
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -115,7 +112,6 @@
                     android:inputType="text"
                     android:paddingStart="16dp" />
 
-                <!-- ================= KATEGORI ================= -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -138,7 +134,6 @@
                         android:alignmentMode="alignMargins"
                         android:useDefaultMargins="true">
 
-                        <!-- PSIKIATER -->
                         <LinearLayout
                             android:id="@+id/btn_psikiater"
                             android:layout_width="0dp"
@@ -162,7 +157,6 @@
                                 android:textSize="14sp" />
                         </LinearLayout>
 
-                        <!-- JANTUNG -->
                         <LinearLayout
                             android:id="@+id/btn_jantung"
                             android:layout_width="0dp"
@@ -186,7 +180,6 @@
                                 android:textSize="14sp" />
                         </LinearLayout>
 
-                        <!-- GIGI -->
                         <LinearLayout
                             android:id="@+id/btn_gigi"
                             android:layout_width="0dp"
@@ -210,7 +203,6 @@
                                 android:textSize="14sp" />
                         </LinearLayout>
 
-                        <!-- KEHAMILAN -->
                         <LinearLayout
                             android:id="@+id/btn_kehamilan"
                             android:layout_width="0dp"
@@ -234,7 +226,6 @@
                                 android:textSize="14sp" />
                         </LinearLayout>
 
-                        <!-- PARU -->
                         <LinearLayout
                             android:id="@+id/btn_paru"
                             android:layout_width="0dp"
@@ -258,7 +249,6 @@
                                 android:textSize="14sp" />
                         </LinearLayout>
 
-                        <!-- LAINNYA -->
                         <LinearLayout
                             android:id="@+id/btn_lainnya"
                             android:layout_width="0dp"
@@ -283,7 +273,6 @@
                         </LinearLayout>
                     </GridLayout>
 
-                    <!-- ================= ANTRIAN BOX ================= -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -330,7 +319,6 @@
                             android:layout_marginTop="12dp" />
                     </LinearLayout>
 
-                    <!-- ================= MAP PREVIEW BOX ================= -->
                     <LinearLayout
                         android:id="@+id/mapBox"
                         android:layout_width="match_parent"
@@ -364,29 +352,20 @@
             </LinearLayout>
         </ScrollView>
 
-        <!-- ================= CAMERA BUTTON ================= -->
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:clipChildren="false"
-            android:clipToPadding="false">
+        <ImageButton
+            android:id="@+id/btn_camera"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/bg_glow_button"
+            android:src="@drawable/barcode_cam"
+            android:scaleType="centerInside"
+            android:contentDescription="Scan QR"
+            android:elevation="10dp" />
 
-            <ImageButton
-                android:id="@+id/btn_camera"
-                android:layout_width="120dp"
-                android:layout_height="110dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="55dp"
-                android:background="@drawable/bg_glow_button"
-                android:src="@drawable/barcode_cam"
-                android:scaleType="centerInside"
-                android:contentDescription="Scan QR"
-                android:elevation="20dp" />
-        </FrameLayout>
     </FrameLayout>
 
-    <!-- ================= DRAWER ================= -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigationView"
         android:layout_width="wrap_content"
