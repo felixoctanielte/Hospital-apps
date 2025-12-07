@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
 
         // GANTI IP DI SINI
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://192.168.51.212:5000/")
+            .baseUrl("http://192.168.1.108:5000/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
