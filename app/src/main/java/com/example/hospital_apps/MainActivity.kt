@@ -1,10 +1,8 @@
 package com.example.hospital_apps
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import android.provider.MediaStore
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -13,48 +11,141 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : AppCompatActivity() {
-    // Tambahkan di atas onCreate
-    private lateinit var geoMapPreview: WebView
 
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navView: NavigationView
     private lateinit var menuIcon: ImageView
-
     private lateinit var btnCamera: ImageButton
-    private lateinit var btnGallery: Button
-    private lateinit var geoMap: WebView // tambahkan WebView untuk peta
-
-    companion object {
-        private const val REQUEST_CAMERA = 1001
-        private const val REQUEST_GALLERY = 1002
-    }
+    private lateinit var geoMap: WebView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // 1. Inisialisasi View
         drawerLayout = findViewById(R.id.drawerLayout)
         navView = findViewById(R.id.navigationView)
         menuIcon = findViewById(R.id.menuIcon)
         btnCamera = findViewById(R.id.btn_camera)
-
-        // === Geoapify Map WebView ===
         geoMap = findViewById(R.id.geoMapPreview)
+
+        // 2. Setup Peta (WebView)
+        setupMap()
+
+        // 3. Setup Navigasi Drawer
+        setupNavigation()
+
+        // 4. Setup Tombol Kategori (Jantung, Gigi, dll)
+        setupCategoryButtons()
+
+        // ============================================================
+        // 5. INTEGRASI AI (RETROFIT)
+        // ============================================================
+
+        // PENTING: Ganti URL ini dengan IP Laptop Anda yang muncul di Terminal Python!
+        // Contoh: "http://192.168.1.10:5000/"
+        val retrofit = Retrofit.Builder()
+            .baseUrl("http://192.168.51.212:5000/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val apiService = retrofit.create(ApiService::class.java)
+
+        // Logika Tombol Kamera: "Simulasi Scan & Kirim ke AI"
+        btnCamera.setOnClickListener {
+
+            // Tampilkan loading sebentar
+            Toast.makeText(this, "Mengirim data ke AI...", Toast.LENGTH_SHORT).show()
+
+            // Data Dummy (Seolah-olah hasil scan QR Code pasien)
+            // Kasus: Lansia (65), Datang Jam Sibuk (1), RS Ramai (1) -> Harusnya LAMA
+            val requestData = PredictionRequest(
+                age = 65,
+                hour1 = 1,
+                weekday1 = 1,
+                triagehtn1 = 1,
+                abnvs1 = 0,
+                moa1 = 0,
+                mm1 = 1,
+                crowd1 = 1
+            )
+
+            // Kirim ke Server Python
+            apiService.predictWaitTime(requestData).enqueue(object : Callback<PredictionResponse> {
+                override fun onResponse(
+                    call: Call<PredictionResponse>,
+                    response: Response<PredictionResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        val hasil = response.body()
+                        val status = hasil?.result_text ?: "Tidak Diketahui"
+                        val prob = hasil?.probability.toString()
+
+                        // Tampilkan Hasil Prediksi Asli dari AI
+                        showAIResultDialog(status, prob)
+                    } else {
+                        Toast.makeText(applicationContext, "Gagal terhubung ke Server", Toast.LENGTH_LONG).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<PredictionResponse>, t: Throwable) {
+                    Toast.makeText(applicationContext, "Error: ${t.message}", Toast.LENGTH_LONG).show()
+                }
+            })
+        }
+    }
+
+    // --- Fungsi Helper untuk Menampilkan Dialog Hasil AI ---
+    private fun showAIResultDialog(status: String, probability: String) {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_scan_result, null)
+
+        // Asumsi di layout dialog_scan_result ada TextView dengan ID txt_patient_data
+        // Kita ubah isinya jadi hasil prediksi
+        val txtData = dialogView.findViewById<TextView>(R.id.txt_patient_data)
+        val btnClose = dialogView.findViewById<Button>(R.id.btn_close)
+
+        val pesanHasil = """
+            ===== HASIL PREDIKSI AI =====
+            
+            Status Waktu Tunggu:
+            $status
+            
+            Probabilitas (Keyakinan):
+            $probability
+            
+            -----------------------------
+            Data Pasien (Simulasi):
+            Umur: 65 Tahun
+            Jam Datang: Sibuk
+            Kondisi RS: Ramai
+        """.trimIndent()
+
+        txtData.text = pesanHasil
+
+        val dialog = AlertDialog.Builder(this)
+            .setView(dialogView)
+            .setCancelable(false)
+            .create()
+
+        btnClose.setOnClickListener { dialog.dismiss() }
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.show()
+    }
+
+    // --- Fungsi Helper Setup Peta ---
+    private fun setupMap() {
         val webSettings: WebSettings = geoMap.settings
         webSettings.javaScriptEnabled = true
-        webSettings.domStorageEnabled = true
         geoMap.webViewClient = WebViewClient()
 
-        // ==== Ganti API KEY milik kamu di sini ====
         val apiKey = "283f56a80bb04fd6a65cd9b98b46f18e"
-
-        // Koordinat contoh (RS Land Of Dawn)
-        val latitude = -6.200000
-        val longitude = 106.816666
-        val zoom = 13
-
         val htmlContent = """
             <!DOCTYPE html>
             <html>
@@ -62,43 +153,30 @@ class MainActivity : AppCompatActivity() {
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
                 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-                <style>
-                    html, body { height: 100%; margin: 0; }
-                    #map { width: 100%; height: 100%; border-radius: 12px; }
-                </style>
+                <style>html, body { height: 100%; margin: 0; } #map { width: 100%; height: 100%; }</style>
             </head>
             <body>
                 <div id="map"></div>
                 <script>
-                    var map = L.map('map').setView([$latitude, $longitude], $zoom);
+                    var map = L.map('map').setView([-6.200000, 106.816666], 13);
                     L.tileLayer('https://maps.geoapify.com/v1/tile/osm-carto/{z}/{x}/{y}.png?apiKey=$apiKey', {
-                        attribution: '© OpenStreetMap contributors, © Geoapify',
                         maxZoom: 20,
                     }).addTo(map);
-                    L.marker([$latitude, $longitude]).addTo(map)
-                        .bindPopup('RS Land Of Dawn<br>Jakarta')
-                        .openPopup();
+                    L.marker([-6.200000, 106.816666]).addTo(map).bindPopup('RS Land Of Dawn');
                 </script>
             </body>
             </html>
         """.trimIndent()
-
         geoMap.loadDataWithBaseURL(null, htmlContent, "text/html", "UTF-8", null)
+    }
 
-        // ====== Drawer Menu Handling ======
-        menuIcon.setOnClickListener {
-            drawerLayout.openDrawer(GravityCompat.START)
-        }
+    // --- Fungsi Helper Navigasi ---
+    private fun setupNavigation() {
+        menuIcon.setOnClickListener { drawerLayout.openDrawer(GravityCompat.START) }
+
         findViewById<LinearLayout>(R.id.mapBox).setOnClickListener {
             startActivity(Intent(this, MapActivity::class.java))
         }
-        geoMapPreview = findViewById(R.id.geoMapPreview)
-
-// Tampilkan peta dengan MapTiler atau OpenStreetMap (tanpa API berbayar)
-        val mapUrl = "https://www.openstreetmap.org/export/embed.html?bbox=106.8227, -6.1754, 106.8456, -6.1600&layer=mapnik"
-        geoMapPreview.settings.javaScriptEnabled = true
-        geoMapPreview.loadUrl(mapUrl)
-
 
         navView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
@@ -111,64 +189,30 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
+        // Header Login
         val headerView = navView.getHeaderView(0)
-        val txtLogin = headerView.findViewById<TextView>(R.id.txtLogin)
-        txtLogin.setOnClickListener {
+        headerView.findViewById<TextView>(R.id.txtLogin).setOnClickListener {
             startActivity(Intent(this, LoginActivity::class.java))
-            drawerLayout.closeDrawer(GravityCompat.START)
         }
-
-        val btnPsikiater = findViewById<LinearLayout>(R.id.btn_psikiater)
-        val btnJantung = findViewById<LinearLayout>(R.id.btn_jantung)
-        val btnGigi = findViewById<LinearLayout>(R.id.btn_gigi)
-        val btnKehamilan = findViewById<LinearLayout>(R.id.btn_kehamilan)
-        val btnParu = findViewById<LinearLayout>(R.id.btn_paru)
-        val btnLainnya = findViewById<LinearLayout>(R.id.btn_lainnya)
-
-
-        btnPsikiater.setOnClickListener { openDiseaseSearch("mental disorder") }
-        btnJantung.setOnClickListener { openDiseaseSearch("heart disease") }
-        btnGigi.setOnClickListener { openDiseaseSearch("tooth infection") }
-        btnKehamilan.setOnClickListener { openDiseaseSearch("pregnancy") }
-        btnParu.setOnClickListener { openDiseaseSearch("lung disease") }
-        btnLainnya.setOnClickListener { openDiseaseSearch("common illness") }
-
-        btnCamera.setOnClickListener { showDummyPatientData("Camera") }
     }
 
-    private fun openDiseaseSearch(category: String) {
-        val intent = Intent(this, DiseaseSearchActivity::class.java)
-        intent.putExtra("category", category)
-        startActivity(intent)
-    }
+    // --- Fungsi Helper Kategori ---
+    private fun setupCategoryButtons() {
+        val categories = mapOf(
+            R.id.btn_psikiater to "mental disorder",
+            R.id.btn_jantung to "heart disease",
+            R.id.btn_gigi to "tooth infection",
+            R.id.btn_kehamilan to "pregnancy",
+            R.id.btn_paru to "lung disease",
+            R.id.btn_lainnya to "common illness"
+        )
 
-    private fun showDummyPatientData(source: String) {
-        val patientData = """
-         Nama: Dimas Tele
-         NIK: 3275012202000005
-         Alamat: Jl. Melati No. 12, Tangerang
-         No. HP: 0812-3456-7890
-         Tanggal Lahir: 22 Feb 2000
-         BPJS: 000142553812 (Aktif)
-         Poli Tujuan: Poli Jantung
-         Dokter: dr. Andi, Sp.JP
-         Jadwal: 04 Okt 2025, 09:00 - 09:30
-    """.trimIndent()
-
-        val dialogView = layoutInflater.inflate(R.layout.dialog_scan_result, null)
-        val txtPatientData = dialogView.findViewById<TextView>(R.id.txt_patient_data)
-        val btnClose = dialogView.findViewById<Button>(R.id.btn_close)
-
-        txtPatientData.text = patientData
-
-        val dialog = AlertDialog.Builder(this)
-            .setView(dialogView)
-            .setCancelable(false)
-            .create()
-
-        btnClose.setOnClickListener { dialog.dismiss() }
-
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        dialog.show()
+        for ((id, category) in categories) {
+            findViewById<LinearLayout>(id).setOnClickListener {
+                val intent = Intent(this, DiseaseSearchActivity::class.java)
+                intent.putExtra("category", category)
+                startActivity(intent)
+            }
+        }
     }
 }
