@@ -1,8 +1,9 @@
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
     id("kotlin-parcelize")
     id("kotlin-kapt")
+    id("com.google.gms.google-services")
     id("org.jetbrains.kotlin.plugin.compose")
 }
 
@@ -16,9 +17,7 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {
@@ -42,44 +41,59 @@ android {
 
     buildFeatures {
         viewBinding = true
-        compose = true // Enables Jetpack Compose support
+        compose = true
     }
 
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.4"
-    }
+//    composeOptions {
+//        kotlinCompilerExtensionVersion = "2.0.0"
+//    }
 }
 
 dependencies {
+    // Firebase
+    implementation(platform("com.google.firebase:firebase-bom:34.6.0"))
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-firestore")
+    implementation("com.google.firebase:firebase-analytics")
 
+    // Compose for Kotlin 2.0
+    implementation("androidx.activity:activity-compose:1.9.2")
+    implementation("androidx.compose.ui:ui:1.7.0")
+    implementation("androidx.compose.material3:material3:1.2.1")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.7.0")
+    debugImplementation("androidx.compose.ui:ui-tooling:1.7.0")
 
+    // Compose UI
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    debugImplementation("androidx.compose.ui:ui-tooling")
+
+    // Activity Compose
+    implementation("androidx.activity:activity-compose:1.9.2")
+
+    // Google Play Services
     implementation("com.google.android.gms:play-services-maps:18.2.0")
     implementation("com.google.android.gms:play-services-location:21.0.1")
-    implementation("com.itextpdf:itextg:5.5.10")
-    //api(Retrofit & Gson)
+
+    // Networking
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    // Core Android libraries
+
+    // UI (XML)
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("com.google.android.material:material:1.12.0")
 
-    // Android Architecture Components
+    // Lifecycle
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.6")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.6")
 
-    // Image loading library
+    // Image Loader
     implementation("com.github.bumptech.glide:glide:4.16.0")
 
-    // Jetpack Compose dependencies
-    implementation("androidx.compose.ui:ui:1.7.1")
-    implementation("androidx.compose.material3:material3:1.2.1")
-    implementation("androidx.compose.ui:ui-tooling-preview:1.7.1")
-    debugImplementation("androidx.compose.ui:ui-tooling:1.7.1")
-    implementation("androidx.activity:activity-compose:1.9.2")
-
-    // Unit and UI testing
+    // Testing
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
