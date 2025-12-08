@@ -19,7 +19,7 @@ class DoctorActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_doctor_page)
 
-        // --- 🔹 Inisialisasi drawer dan navigasi ---
+        //  Inisialisasi drawer dan navigasi
         drawerLayout = findViewById(R.id.doctorDrawerLayout)
         navView = findViewById(R.id.navView)
         menuIcon = findViewById(R.id.menuIcon)
@@ -28,7 +28,7 @@ class DoctorActivity : AppCompatActivity() {
         setupMenuActions()     // Setup click menu drawer
     }
 
-    // --- 🔹 Fungsi untuk setup header profil dokter ---
+    // Fungsi untuk setup header profil dokter
     private fun setupHeader() {
         val headerView = navView.getHeaderView(0)
         val doctorName = headerView.findViewById<TextView>(R.id.doctorName)
@@ -41,7 +41,7 @@ class DoctorActivity : AppCompatActivity() {
         doctorImage.setImageResource(R.drawable.doctor)
     }
 
-    // --- 🔹 Fungsi untuk setup menu drawer ---
+    //  Fungsi untuk setup menu drawer
     private fun setupMenuActions() {
         menuIcon.setOnClickListener {
             drawerLayout.openDrawer(GravityCompat.START)
@@ -70,7 +70,7 @@ class DoctorActivity : AppCompatActivity() {
 
     }
 
-    // --- 🔹 Optional: menutup drawer saat tekan back ---
+    //Optional: menutup drawer saat tekan back
     override fun onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)

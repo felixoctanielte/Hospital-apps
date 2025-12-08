@@ -30,7 +30,7 @@ class ItemAdapter(private val items: MutableList<ItemData>) :
         holder.tvSpecialty.text = item.specialty
     }
 
-    // --- Tambahan untuk ShowActivity ---
+    // Tambahan untuk ShowActivity
     fun setData(newData: List<ItemData>) {
         items.clear()
         items.addAll(newData)
