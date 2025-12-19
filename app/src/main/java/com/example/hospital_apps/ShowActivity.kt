@@ -1,6 +1,5 @@
 package com.example.hospital_apps
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -8,10 +7,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import android.view.View
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 
 class ShowActivity : AppCompatActivity() {
-    private lateinit var btnBack: Button
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ItemAdapter
@@ -28,19 +27,14 @@ class ShowActivity : AppCompatActivity() {
     private lateinit var btnPasien: Button
 
     private var currentCategory = "dokter"
-    private var selectedItemId: Int? = null
+    private var selectedItemId: String? = null // docId asli dari Firestore
+
+    private val db = FirebaseFirestore.getInstance()
+    private var listenerRegistration: ListenerRegistration? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_show)
-
-        // Tombol kembali ke AdminActivity
-        btnBack = findViewById(R.id.btnBack)
-        btnBack.setOnClickListener {
-            val intent = Intent(this, AdminActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
 
         recyclerView = findViewById(R.id.recyclerView)
         editName = findViewById(R.id.editName)
@@ -56,53 +50,60 @@ class ShowActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
 
-        // Load kategori default
-        loadCategory("dokter")
-
+        // Tombol kategori
         btnDokter.setOnClickListener { loadCategory("dokter") }
         btnPoli.setOnClickListener { loadCategory("poli") }
         btnPasien.setOnClickListener { loadCategory("pasien") }
 
+        // Tombol CRUD
         btnCreate.setOnClickListener { createItem() }
         btnUpdate.setOnClickListener { updateItem() }
         btnDelete.setOnClickListener { deleteItem() }
 
+        // Item click listener untuk memilih item
         recyclerView.addOnItemTouchListener(
             RecyclerItemClickListener(this, recyclerView,
                 object : RecyclerItemClickListener.OnItemClickListener {
-                    override fun onItemClick(view: View, position: Int) {
+                    override fun onItemClick(view: android.view.View, position: Int) {
                         val item = itemList[position]
                         editName.setText(item.name)
                         editSpecialty.setText(item.specialty)
-                        selectedItemId = item.id
+                        selectedItemId = item.docId // pakai docId asli
                     }
 
-                    override fun onLongItemClick(view: View, position: Int) {}
+                    override fun onLongItemClick(view: android.view.View, position: Int) {}
                 })
         )
+
+        // Load kategori default
+        loadCategory("dokter")
     }
 
     private fun loadCategory(category: String) {
         currentCategory = category
-        val data = when (category) {
-            "dokter" -> listOf(
-                ItemData(1, "dr. John Doe", "Sp. Jantung"),
-                ItemData(2, "dr. Jane Smith", "Sp. Gigi")
-            )
-            "poli" -> listOf(
-                ItemData(1, "Poli Gigi", "Gigi & Mulut"),
-                ItemData(2, "Poli Umum", "Penyakit Dalam")
-            )
-            "pasien" -> listOf(
-                ItemData(1, "Mamat Reza", "Umur 25"),
-                ItemData(2, "Dewi Lestari", "Umur 30")
-            )
-            else -> emptyList()
-        }
-        adapter.setData(data)
-        selectedItemId = null
-        editName.text.clear()
-        editSpecialty.text.clear()
+        listenerRegistration?.remove()
+        itemList.clear()
+        adapter.notifyDataSetChanged()
+
+        listenerRegistration = db.collection(category)
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    Toast.makeText(this, "Error: ${error.message}", Toast.LENGTH_SHORT).show()
+                    return@addSnapshotListener
+                }
+
+                itemList.clear()
+                snapshot?.documents?.forEach { doc ->
+                    val name = doc.getString("name") ?: ""
+                    val specialty = doc.getString("specialty") ?: ""
+                    val docId = doc.id // simpan docId asli
+                    itemList.add(ItemData(docId, name, specialty))
+                }
+                adapter.notifyDataSetChanged()
+                editName.text.clear()
+                editSpecialty.text.clear()
+                selectedItemId = null
+            }
     }
 
     private fun createItem() {
@@ -112,35 +113,71 @@ class ShowActivity : AppCompatActivity() {
             Toast.makeText(this, "Isi semua kolom dulu", Toast.LENGTH_SHORT).show()
             return
         }
-        val newId = (itemList.maxOfOrNull { it.id } ?: 0) + 1
-        adapter.addItem(ItemData(newId, name, specialty))
-        editName.text.clear()
-        editSpecialty.text.clear()
+
+        val data = hashMapOf(
+            "name" to name,
+            "specialty" to specialty
+        )
+        db.collection(currentCategory)
+            .add(data)
+            .addOnSuccessListener {
+                Toast.makeText(this, "Item ditambahkan", Toast.LENGTH_SHORT).show()
+                editName.text.clear()
+                editSpecialty.text.clear()
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "Gagal: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
     }
 
     private fun updateItem() {
-        val id = selectedItemId
-        if (id == null) {
+        if (selectedItemId == null) {
             Toast.makeText(this, "Pilih item dulu", Toast.LENGTH_SHORT).show()
             return
         }
         val name = editName.text.toString()
         val specialty = editSpecialty.text.toString()
-        adapter.updateItem(id, name, specialty)
-        editName.text.clear()
-        editSpecialty.text.clear()
-        selectedItemId = null
+        if (name.isEmpty() || specialty.isEmpty()) {
+            Toast.makeText(this, "Isi semua kolom dulu", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        db.collection(currentCategory)
+            .document(selectedItemId!!) // pakai docId asli
+            .update("name", name, "specialty", specialty)
+            .addOnSuccessListener {
+                Toast.makeText(this, "Item diperbarui", Toast.LENGTH_SHORT).show()
+                editName.text.clear()
+                editSpecialty.text.clear()
+                selectedItemId = null
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "Gagal: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
     }
 
     private fun deleteItem() {
-        val id = selectedItemId
-        if (id == null) {
+        if (selectedItemId == null) {
             Toast.makeText(this, "Pilih item dulu", Toast.LENGTH_SHORT).show()
             return
         }
-        adapter.deleteItem(id)
-        editName.text.clear()
-        editSpecialty.text.clear()
-        selectedItemId = null
+
+        db.collection(currentCategory)
+            .document(selectedItemId!!) // pakai docId asli
+            .delete()
+            .addOnSuccessListener {
+                Toast.makeText(this, "Item dihapus", Toast.LENGTH_SHORT).show()
+                editName.text.clear()
+                editSpecialty.text.clear()
+                selectedItemId = null
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "Gagal: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    override fun onDestroy() {
+        listenerRegistration?.remove()
+        super.onDestroy()
     }
 }

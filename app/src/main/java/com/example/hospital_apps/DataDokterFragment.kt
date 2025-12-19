@@ -4,24 +4,47 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.firestore.FirebaseFirestore
 
 class DataDokterFragment : Fragment() {
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+
+    private lateinit var db: FirebaseFirestore
+    private lateinit var adapter: ArrayAdapter<String>
+    private val dataList = mutableListOf<String>()
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+
         val view = inflater.inflate(R.layout.fragment_data_dokter, container, false)
-        val recyclerView: RecyclerView = view.findViewById(R.id.rv_dokter)
-        recyclerView.layoutManager = LinearLayoutManager(context)
+        val listView = view.findViewById<ListView>(R.id.list_dokter)
 
-        val data = listOf(
-            "dr. Brando, Sp.JP" to "Jantung",
-            "dr. Maya, Sp.KK" to "Kulit",
-            "dr. Rizky, Sp.PD" to "Penyakit Dalam"
+        adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_list_item_1,
+            dataList
         )
+        listView.adapter = adapter
 
-        recyclerView.adapter = SimpleAdapter(requireContext(), "Dokter", data)
+        db = FirebaseFirestore.getInstance()
+
+        db.collection("dokter")
+            .addSnapshotListener { snapshot, _ ->
+                dataList.clear()
+                snapshot?.forEach {
+                    val nama = it.getString("nama") ?: ""
+                    val spesialis = it.getString("spesialis") ?: ""
+                    dataList.add("$nama - $spesialis")
+                }
+                adapter.notifyDataSetChanged()
+            }
+
         return view
     }
 }

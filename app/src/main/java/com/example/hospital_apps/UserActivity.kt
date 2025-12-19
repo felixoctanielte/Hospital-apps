@@ -88,9 +88,9 @@ class UserActivity : AppCompatActivity() {
             }
     }
 
-    // =========================
+
     // 🔧 HELPER
-    // =========================
+
     private fun setMenuData(layout: LinearLayout, title: String, value: String) {
         val tvTitle: TextView = layout.findViewById(R.id.tvMenuTitle)
         val tvValue: TextView = layout.findViewById(R.id.tvMenuValue)

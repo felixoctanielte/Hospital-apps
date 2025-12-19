@@ -1,44 +1,37 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="8dp"
-    android:background="#F4F8FB">
+    android:padding="12dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <!-- Tombol kembali -->
-    <LinearLayout
+    <ImageButton
+        android:id="@+id/btn_kembali_admin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_menu_revert"
+        android:contentDescription="Kembali"/>
+
+    <EditText
+        android:id="@+id/edit_nama"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:paddingVertical="8dp">
+        android:hint="Nama Pasien"/>
 
-        <ImageButton
-            android:id="@+id/btn_kembali_admin"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@android:color/transparent"
-            android:src="@drawable/ic_arrow_back"
-            android:contentDescription="Kembali"
-            android:tint="#2196F3" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Kembali ke Admin"
-            android:textSize="16sp"
-            android:textColor="#2196F3"
-            android:fontFamily="sans-serif-medium"
-            android:layout_marginStart="4dp"/>
-    </LinearLayout>
-
-    <!-- Daftar pasien -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_pasien"
+    <EditText
+        android:id="@+id/edit_poli"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:scrollbars="vertical" />
+        android:layout_height="wrap_content"
+        android:hint="Poli"/>
 
+    <Button
+        android:id="@+id/btn_simpan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Simpan Pasien"/>
+
+    <ListView
+        android:id="@+id/list_pasien"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 </LinearLayout>

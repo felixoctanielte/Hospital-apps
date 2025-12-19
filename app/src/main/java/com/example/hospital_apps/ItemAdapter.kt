@@ -6,8 +6,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-data class ItemData(val id: Int, val name: String, val specialty: String)
-
 class ItemAdapter(private val items: MutableList<ItemData>) :
     RecyclerView.Adapter<ItemAdapter.ViewHolder>() {
 
@@ -30,31 +28,10 @@ class ItemAdapter(private val items: MutableList<ItemData>) :
         holder.tvSpecialty.text = item.specialty
     }
 
-    // Tambahan untuk ShowActivity
+    // CRUD untuk ShowActivity
     fun setData(newData: List<ItemData>) {
         items.clear()
         items.addAll(newData)
         notifyDataSetChanged()
-    }
-
-    fun addItem(item: ItemData) {
-        items.add(item)
-        notifyItemInserted(items.size - 1)
-    }
-
-    fun updateItem(id: Int, name: String, specialty: String) {
-        val index = items.indexOfFirst { it.id == id }
-        if (index != -1) {
-            items[index] = items[index].copy(name = name, specialty = specialty)
-            notifyItemChanged(index)
-        }
-    }
-
-    fun deleteItem(id: Int) {
-        val index = items.indexOfFirst { it.id == id }
-        if (index != -1) {
-            items.removeAt(index)
-            notifyItemRemoved(index)
-        }
     }
 }
