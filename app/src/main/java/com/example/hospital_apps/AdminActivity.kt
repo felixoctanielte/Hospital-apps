@@ -49,10 +49,10 @@ class AdminActivity : AppCompatActivity() {
                     intent.putExtra("type", "dokter")
                     startActivity(intent)
                 }
-                R.id.nav_verifikasi -> {
-                    val intent = Intent(this, VerifikasiPasienActivity::class.java)
-                    startActivity(intent)
-                }
+//                R.id.nav_verifikasi -> {
+//                    val intent = Intent(this, VerifikasiPasienActivity::class.java)
+//                    startActivity(intent)
+//                }
                 R.id.nav_laporan -> {
                     Toast.makeText(this, "Menu laporan diklik", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this, AdminLaporanActivity::class.java)
