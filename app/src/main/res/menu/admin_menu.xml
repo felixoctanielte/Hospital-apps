@@ -4,10 +4,10 @@
             android:id="@+id/nav_master_data"
             android:title="Master Data"
             android:icon="@drawable/ic_data" />
-        <item
-            android:id="@+id/nav_verifikasi"
-            android:title="Verifikasi Pasien"
-            android:icon="@drawable/ic_verify" />
+<!--        <item-->
+<!--            android:id="@+id/nav_verifikasi"-->
+<!--            android:title="Verifikasi Pasien"-->
+<!--            android:icon="@drawable/ic_verify" />-->
         <item
             android:id="@+id/nav_laporan"
             android:title="Laporan"
