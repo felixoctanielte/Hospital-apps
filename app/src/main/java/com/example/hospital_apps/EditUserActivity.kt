@@ -1,86 +1,147 @@
 package com.example.hospital_apps
 
-import android.app.Activity
 import android.app.DatePickerDialog
-import android.content.Intent
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import java.util.*
 
 class EditUserActivity : AppCompatActivity() {
+
+    private lateinit var etNama: EditText
+    private lateinit var etTanggal: EditText
+    private lateinit var etNIK: EditText
+    private lateinit var etAlamat: EditText
+    private lateinit var etBPJS: EditText
+    private lateinit var cbConfirm: CheckBox
+    private lateinit var btnSimpan: Button
+    private lateinit var btnBack: ImageButton
+
+    private val auth = FirebaseAuth.getInstance()
+    private val db = FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_user)
 
-        val etNama = findViewById<EditText>(R.id.etNama)
-        val etTanggal = findViewById<EditText>(R.id.etTanggalLahir)
-        val etNIK = findViewById<EditText>(R.id.etNIK)
-        val etAlamat = findViewById<EditText>(R.id.etAlamat)
-        val etBPJS = findViewById<EditText>(R.id.etBPJS)
-        val cbConfirm = findViewById<CheckBox>(R.id.cbConfirm)
-        val btnSimpan = findViewById<Button>(R.id.btnSimpan)
-        val btnBack = findViewById<ImageButton>(R.id.btnBack)
+        // 🔗 Bind View
+        etNama = findViewById(R.id.etNama)
+        etTanggal = findViewById(R.id.etTanggalLahir)
+        etNIK = findViewById(R.id.etNIK)
+        etAlamat = findViewById(R.id.etAlamat)
+        etBPJS = findViewById(R.id.etBPJS)
+        cbConfirm = findViewById(R.id.cbConfirm)
+        btnSimpan = findViewById(R.id.btnSimpan)
+        btnBack = findViewById(R.id.btnBack)
 
-        // Ambil data lama dari intent (kalau ada)
-        etNama.setText(intent.getStringExtra("nama"))
-        etTanggal.setText(intent.getStringExtra("tanggal"))
-        etNIK.setText(intent.getStringExtra("nik"))
-        etAlamat.setText(intent.getStringExtra("alamat"))
-        etBPJS.setText(intent.getStringExtra("bpjs"))
+        // 🔥 Load data dari Firestore
+        loadUserData()
 
-        // Tombol Back
-        btnBack.setOnClickListener {
-            finish() // Kembali ke halaman profil tanpa menyimpan
-        }
+        // 🔒 Nama dari login (tidak boleh diedit)
+        etNama.isEnabled = false
+        etNama.isFocusable = false
 
-        // DatePicker untuk tanggal lahir
-        etTanggal.setOnClickListener {
-            val c = Calendar.getInstance()
-            val year = c.get(Calendar.YEAR)
-            val month = c.get(Calendar.MONTH)
-            val day = c.get(Calendar.DAY_OF_MONTH)
+        btnBack.setOnClickListener { finish() }
+        etTanggal.setOnClickListener { showDatePicker() }
+        btnSimpan.setOnClickListener { updateUserData() }
+    }
 
-            val datePicker = DatePickerDialog(this, { _, y, m, d ->
-                etTanggal.setText(String.format("%02d-%02d-%04d", d, m + 1, y))
-            }, year, month, day)
+    // =========================
+    // 🔥 AMBIL DATA USER
+    // =========================
+    private fun loadUserData() {
+        val uid = auth.currentUser?.uid ?: return
 
-            datePicker.show()
-        }
-
-        btnSimpan.setOnClickListener {
-            val nama = etNama.text.toString().trim()
-            val tanggal = etTanggal.text.toString().trim()
-            val nik = etNIK.text.toString().trim()
-            val alamat = etAlamat.text.toString().trim()
-            val bpjs = etBPJS.text.toString().trim()
-
-            // Validasi data
-            when {
-                nama.isEmpty() -> showToast("Nama tidak boleh kosong")
-                tanggal.isEmpty() -> showToast("Tanggal lahir belum diisi")
-                nik.length != 16 || !nik.all { it.isDigit() } -> showToast("NIK harus 16 angka")
-                alamat.isEmpty() -> showToast("Alamat tidak boleh kosong")
-                alamat.length > 100 -> showToast("Alamat maksimal 100 karakter")
-                bpjs.isEmpty() -> showToast("Nomor BPJS tidak boleh kosong")
-                !bpjs.all { it.isDigit() } -> showToast("Nomor BPJS hanya boleh angka")
-                !cbConfirm.isChecked -> showToast("Centang konfirmasi terlebih dahulu")
-                else -> {
-                    val resultIntent = Intent().apply {
-                        putExtra("nama", nama)
-                        putExtra("tanggal", tanggal)
-                        putExtra("nik", nik)
-                        putExtra("alamat", alamat)
-                        putExtra("bpjs", bpjs)
-                    }
-                    setResult(Activity.RESULT_OK, resultIntent)
-                    finish()
+        db.collection("users").document(uid)
+            .get()
+            .addOnSuccessListener { doc ->
+                if (doc.exists()) {
+                    etNama.setText(doc.getString("name") ?: "")
+                    etTanggal.setText(doc.getString("tanggal_lahir") ?: "")
+                    etNIK.setText(doc.getString("nik") ?: "")
+                    etAlamat.setText(doc.getString("alamat") ?: "")
+                    etBPJS.setText(doc.getString("bpjs") ?: "")
                 }
+            }
+            .addOnFailureListener {
+                showToast("Gagal memuat data user")
+            }
+    }
+
+    // =========================
+    // 📅 DATE PICKER
+    // =========================
+    private fun showDatePicker() {
+        val c = Calendar.getInstance()
+        DatePickerDialog(
+            this,
+            { _, year, month, day ->
+                etTanggal.setText(
+                    String.format("%02d-%02d-%04d", day, month + 1, year)
+                )
+            },
+            c.get(Calendar.YEAR),
+            c.get(Calendar.MONTH),
+            c.get(Calendar.DAY_OF_MONTH)
+        ).show()
+    }
+
+    // =========================
+    // 💾 UPDATE DATA USER
+    // =========================
+    private fun updateUserData() {
+        val tanggal = etTanggal.text.toString().trim()
+        val nik = etNIK.text.toString().trim()
+        val alamat = etAlamat.text.toString().trim()
+        val bpjs = etBPJS.text.toString().trim()
+
+        when {
+            tanggal.isEmpty() ->
+                showToast("Tanggal lahir belum diisi")
+
+            nik.length != 16 || !nik.all { it.isDigit() } ->
+                showToast("NIK harus 16 angka")
+
+            alamat.isEmpty() ->
+                showToast("Alamat tidak boleh kosong")
+
+            alamat.length > 100 ->
+                showToast("Alamat maksimal 100 karakter")
+
+            bpjs.isEmpty() || !bpjs.all { it.isDigit() } ->
+                showToast("BPJS harus berupa angka")
+
+            !cbConfirm.isChecked ->
+                showToast("Centang konfirmasi terlebih dahulu")
+
+            else -> {
+                val uid = auth.currentUser?.uid ?: return
+
+                val updateData = hashMapOf<String, Any>(
+                    "tanggal_lahir" to tanggal,
+                    "nik" to nik,
+                    "alamat" to alamat,
+                    "bpjs" to bpjs
+                )
+
+                db.collection("users").document(uid)
+                    .update(updateData)
+                    .addOnSuccessListener {
+                        showToast("Data berhasil diperbarui")
+                        finish()
+                    }
+                    .addOnFailureListener {
+                        showToast("Gagal memperbarui data")
+                    }
             }
         }
     }
 
+    // =========================
+    // 🔔 TOAST
+    // =========================
     private fun showToast(msg: String) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }

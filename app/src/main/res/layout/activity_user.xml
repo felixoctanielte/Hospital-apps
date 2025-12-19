@@ -49,24 +49,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="16dp">
 
-                <TextView
-                    android:id="@+id/tvUsername"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="guest81724687"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/black"
-                    android:gravity="center" />
 
-                <TextView
-                    android:id="@+id/tvPhone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="+62 8********"
-                    android:textSize="16sp"
-                    android:textColor="@android:color/darker_gray"
-                    android:gravity="center" />
             </LinearLayout>
 
             <!-- Tombol Edit di bawah nomor telepon -->

@@ -23,8 +23,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var auth: FirebaseAuth
+    private lateinit var db: FirebaseFirestore
 
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navView: NavigationView
@@ -47,6 +52,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        auth = FirebaseAuth.getInstance()
+        db = FirebaseFirestore.getInstance()
+
 
         drawerLayout = findViewById(R.id.drawerLayout)
         navView = findViewById(R.id.navigationView)
@@ -194,8 +202,11 @@ class MainActivity : AppCompatActivity() {
 
     // --- Helper: Navigation ---
     private fun setupNavigation() {
-        menuIcon.setOnClickListener { drawerLayout.openDrawer(GravityCompat.START) }
-        findViewById<LinearLayout>(R.id.mapBox).setOnClickListener { startActivity(Intent(this, MapActivity::class.java)) }
+        menuIcon.setOnClickListener {
+            drawerLayout.openDrawer(GravityCompat.START)
+        }
+
+        // Menu drawer
         navView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.nav_antrian -> startActivity(Intent(this, AntrianActivity::class.java))
@@ -206,9 +217,41 @@ class MainActivity : AppCompatActivity() {
             drawerLayout.closeDrawer(GravityCompat.START)
             true
         }
+
+        // === HEADER NAVIGATION ===
         val headerView = navView.getHeaderView(0)
-        headerView.findViewById<TextView>(R.id.txtLogin).setOnClickListener { startActivity(Intent(this, LoginActivity::class.java)) }
+        val txtUsername = headerView.findViewById<TextView>(R.id.txtUsername)
+        val txtLogin = headerView.findViewById<TextView>(R.id.txtLogin)
+
+        val user = auth.currentUser
+
+        if (user != null) {
+            // 🔥 SUDAH LOGIN
+            db.collection("users").document(user.uid)
+                .get()
+                .addOnSuccessListener { doc ->
+                    val nama = doc.getString("nama") ?: "User"
+                    txtUsername.text = nama
+                    txtLogin.text = "Logout"
+                }
+
+            txtLogin.setOnClickListener {
+                FirebaseAuth.getInstance().signOut()
+                startActivity(Intent(this, LoginActivity::class.java))
+                finish()
+            }
+
+        } else {
+            //  BELUM LOGIN
+            txtUsername.text = "Guest"
+            txtLogin.text = "Sambungkan akun anda?"
+
+            txtLogin.setOnClickListener {
+                startActivity(Intent(this, LoginActivity::class.java))
+            }
+        }
     }
+
 
     // --- Helper: Category Buttons ---
     private fun setupCategoryButtons() {
