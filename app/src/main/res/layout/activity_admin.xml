@@ -68,7 +68,6 @@
                     android:paddingStart="20dp"
                     android:paddingEnd="20dp">
 
-                    <!-- Teks kecil -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -80,7 +79,6 @@
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
-                    <!-- Teks utama -->
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -93,7 +91,6 @@
                         android:textSize="22sp"
                         android:textStyle="bold" />
 
-                    <!-- Tombol -->
                     <Button
                         android:id="@+id/btnServices"
                         android:layout_width="wrap_content"
@@ -112,175 +109,119 @@
 
             </FrameLayout>
 
+            <!-- RecyclerView Dokter -->
+
             <!-- ================= STATISTIK INFO ================= -->
+
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:background="@drawable/stat_card"
-                android:elevation="6dp"
-                android:orientation="vertical"
-                android:padding="12dp">
-                <FrameLayout
-                    android:id="@+id/fragment_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:text="Statistik Info"
-                    android:textColor="#007BA7"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                android:layout_height="133dp"
+                android:layout_margin="20dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="3">
 
-                    <!-- HEADER -->
-                    <TableLayout
-                        android:layout_width="match_parent"
+                <!-- Total Pasien -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/stat_card"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/ic_patient"
+                        android:tint="#007BA7" />
+
+                    <TextView
+                        android:id="@+id/totalPasienTV"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:stretchColumns="1,2,3"
-                        android:background="@drawable/table_border_bg">
+                        android:layout_marginTop="8dp"
+                        android:text="0"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
 
-                        <!-- Header Row -->
-                        <TableRow
-                            android:background="#8BBEDE"
-                            android:paddingTop="4dp"
-                            android:paddingBottom="4dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total Pasien"
+                        android:textColor="#555"
+                        android:textSize="12sp" />
+                </LinearLayout>
 
-                            <TextView
-                                android:text=""
-                                android:layout_width="40dp"
-                                android:layout_height="wrap_content" />
+                <!-- Total Dokter -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/stat_card"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="12dp">
 
-                            <TextView
-                                android:text="Judul"
-                                android:textStyle="bold"
-                                android:gravity="center"
-                                android:layout_marginEnd="8dp"/>
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/ic_doctor"
+                        android:tint="#28A745" />
 
-                            <TextView
-                                android:text="Nilai"
-                                android:textStyle="bold"
-                                android:gravity="center"
-                                android:layout_marginEnd="8dp"/>
+                    <TextView
+                        android:id="@+id/totalDokterTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="0"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
 
-                            <TextView
-                                android:text="Keterangan"
-                                android:textStyle="bold"
-                                android:gravity="center" />
-                        </TableRow>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total Dokter"
+                        android:textColor="#555"
+                        android:textSize="12sp" />
+                </LinearLayout>
 
-                        <!-- Garis pembatas -->
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="#000000" />
+                <!-- Total Poli -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/stat_card"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="12dp">
 
-                        <!-- Isi Tabel -->
-                        <TableRow>
-                            <ImageView
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
-                                android:src="@drawable/ic_patient"
-                                android:tint="#007BA7"
-                                android:layout_marginEnd="8dp" />
-                            <TextView android:text="Total Pasien Hari Ini" />
-                            <TextView
-                                android:text="128"
-                                android:textStyle="bold"
-                                android:gravity="center" />
-                            <TextView android:text="Semua Poli" />
-                        </TableRow>
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/ic_hospital"
+                        android:tint="#FFC107" />
 
-                        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#000000" />
+                    <TextView
+                        android:id="@+id/totalPoliTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="0"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
 
-                        <TableRow>
-                            <ImageView
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
-                                android:src="@drawable/ic_doctor"
-                                android:tint="#007BA7"
-                                android:layout_marginEnd="8dp" />
-                            <TextView android:text="Total Dokter Aktif" />
-                            <TextView
-                                android:text="15"
-                                android:textStyle="bold"
-                                android:gravity="center" />
-                            <TextView android:text="Sedang Praktik" />
-                        </TableRow>
-
-                        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#000000" />
-
-                        <TableRow>
-                            <ImageView
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
-                                android:src="@drawable/ic_queue"
-                                android:tint="#007BA7"
-                                android:layout_marginEnd="8dp" />
-                            <TextView android:text="Antrean Aktif" />
-                            <TextView
-                                android:text="37"
-                                android:textStyle="bold"
-                                android:gravity="center" />
-                            <TextView android:text="Sedang Menunggu" />
-                        </TableRow>
-
-                        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#000000" />
-
-                        <TableRow>
-                            <ImageView
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
-                                android:src="@drawable/ic_verify"
-                                android:tint="#007BA7"
-                                android:layout_marginEnd="8dp" />
-                            <TextView android:text="Perlu Verifikasi" />
-                            <TextView
-                                android:text="5"
-                                android:textStyle="bold"
-                                android:gravity="center" />
-                            <TextView android:text="Belum Diverifikasi" />
-                        </TableRow>
-
-                        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#000000" />
-
-                        <TableRow>
-                            <ImageView
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
-                                android:src="@drawable/ic_schedule"
-                                android:tint="#007BA7"
-                                android:layout_marginEnd="8dp" />
-                            <TextView android:text="Jadwal Hari Ini" />
-                            <TextView
-                                android:text="10"
-                                android:textStyle="bold"
-                                android:gravity="center" />
-                            <TextView android:text="Aktif Melayani" />
-                        </TableRow>
-
-                        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#000000" />
-
-                        <TableRow>
-                            <ImageView
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
-                                android:src="@drawable/ic_report"
-                                android:tint="#007BA7"
-                                android:layout_marginEnd="8dp" />
-                            <TextView android:text="Laporan Baru" />
-                            <TextView
-                                android:text="128"
-                                android:textStyle="bold"
-                                android:gravity="center" />
-                            <TextView android:text="Belum Dicetak" />
-                        </TableRow>
-
-                        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#000000" />
-                    </TableLayout>
-
-
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total Poli"
+                        android:textColor="#555"
+                        android:textSize="12sp" />
+                </LinearLayout>
             </LinearLayout>
 
             <!-- ================= AKTIVITAS TERBARU ================= -->
@@ -294,6 +235,7 @@
                 android:layout_marginTop="4dp"/>
 
             <TableLayout
+                android:id="@+id/tableAktivitas"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="12dp"
@@ -306,180 +248,8 @@
                     <TextView android:text="Aktivitas" android:textStyle="bold"/>
                     <TextView android:text="Keterangan" android:textStyle="bold"/>
                 </TableRow>
-
-                <TableRow>
-                    <TextView android:text="09.05"/>
-                    <TextView android:text="Verifikasi pasien diterima"/>
-                    <TextView android:text="Pasien: Mamat Reza"/>
-                </TableRow>
-
-                <TableRow>
-                    <TextView android:text="09.10"/>
-                    <TextView android:text="Tambah data dokter baru"/>
-                    <TextView android:text="dr. Brando, Sp.JP"/>
-                </TableRow>
-
-                <TableRow>
-                    <TextView android:text="09.30"/>
-                    <TextView android:text="Cetak laporan harian"/>
-                    <TextView android:text="Poli Gigi"/>
-                </TableRow>
-
-                <TableRow>
-                    <TextView android:text="10.00"/>
-                    <TextView android:text="Antrian baru terdaftar"/>
-                    <TextView android:text="Pasien: Faiz Lembayung"/>
-                </TableRow>
             </TableLayout>
 
-            <!-- ================= QUICK ACTION ================= -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="#001F3F"
-                android:padding="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="24dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Quick Action"
-                    android:textColor="@android:color/white"
-                    android:textSize="16sp"
-                    android:layout_marginBottom="12dp"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <!-- Left Column -->
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <!-- Verifikasi -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="56dp"
-                            android:orientation="horizontal"
-                            android:layout_margin="8dp"
-                            android:background="@drawable/quick_button_bg"
-                            android:padding="8dp"
-                            android:gravity="center_vertical">
-
-                            <ImageView
-                                android:layout_width="44dp"
-                                android:layout_height="44dp"
-                                android:layout_marginEnd="8dp"
-                                android:padding="8dp"
-                                android:background="@drawable/icon_bg_purple"
-                                android:src="@drawable/ic_verify"
-                                android:tint="@android:color/white"/>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Verifikasi"
-                                android:textColor="#001F3F"
-                                android:textStyle="bold"/>
-                        </LinearLayout>
-
-                        <!-- Laporan -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="56dp"
-                            android:orientation="horizontal"
-                            android:layout_margin="8dp"
-                            android:background="@drawable/quick_button_bg"
-                            android:padding="8dp"
-                            android:gravity="center_vertical">
-
-                            <ImageView
-                                android:layout_width="44dp"
-                                android:layout_height="44dp"
-                                android:layout_marginEnd="8dp"
-                                android:padding="8dp"
-                                android:background="@drawable/icon_bg_red"
-                                android:src="@drawable/ic_report"
-                                android:tint="@android:color/white"/>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Laporan"
-                                android:textColor="#001F3F"
-                                android:textStyle="bold"/>
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <!-- Right Column -->
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <!-- Dokter -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="56dp"
-                            android:orientation="horizontal"
-                            android:layout_margin="8dp"
-                            android:background="@drawable/quick_button_bg"
-                            android:padding="8dp"
-                            android:gravity="center_vertical">
-
-                            <ImageView
-                                android:layout_width="44dp"
-                                android:layout_height="44dp"
-                                android:layout_marginEnd="8dp"
-                                android:padding="8dp"
-                                android:background="@drawable/icon_bg_green"
-                                android:src="@drawable/ic_doctor"
-                                android:tint="@android:color/white"/>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Dokter"
-                                android:textColor="#001F3F"
-                                android:textStyle="bold"/>
-                        </LinearLayout>
-
-                        <!-- Pengguna -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="56dp"
-                            android:orientation="horizontal"
-                            android:layout_margin="8dp"
-                            android:background="@drawable/quick_button_bg"
-                            android:padding="8dp"
-                            android:gravity="center_vertical">
-
-                            <ImageView
-                                android:layout_width="44dp"
-                                android:layout_height="44dp"
-                                android:layout_marginEnd="8dp"
-                                android:padding="8dp"
-                                android:background="@drawable/icon_bg_golden"
-                                android:src="@drawable/ic_user"
-                                android:tint="@android:color/white"/>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Pengguna"
-                                android:textColor="#001F3F"
-                                android:textStyle="bold"/>
-                        </LinearLayout>
-                    </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

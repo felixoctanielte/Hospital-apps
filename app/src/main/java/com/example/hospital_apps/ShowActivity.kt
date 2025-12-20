@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
+import android.widget.ImageButton
 
 class ShowActivity : AppCompatActivity() {
 
@@ -35,6 +36,10 @@ class ShowActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_show)
+        val btnKembali: ImageButton = findViewById(R.id.btn_kembali_admin)
+        btnKembali.setOnClickListener {
+            finish() // menutup ShowActivity dan kembali ke activity sebelumnya
+        }
 
         recyclerView = findViewById(R.id.recyclerView)
         editName = findViewById(R.id.editName)

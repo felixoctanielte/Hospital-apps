@@ -3,15 +3,16 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <Button
-        android:id="@+id/btnBack"
+    <ImageButton
+        android:id="@+id/btn_kembali_admin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Kembali"
-        android:backgroundTint="#2196F3"
-        android:textColor="@android:color/white"
-        android:layout_gravity="start"
-        android:layout_marginBottom="8dp"/>
+        android:src="@android:drawable/ic_menu_revert"
+        android:contentDescription="Kembali"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_margin="8dp"/>
+
     <!-- Pilih Kategori -->
     <LinearLayout
         android:layout_width="match_parent"
