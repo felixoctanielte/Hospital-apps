@@ -15,6 +15,21 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanOptions
+import java.util.Date
+import java.util.Locale
+import android.app.AlertDialog
+import java.text.SimpleDateFormat
+import com.google.gson.Gson
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+
+import retrofit2.converter.gson.GsonConverterFactory
+
+import android.webkit.WebSettings
+import android.widget.*
+import androidx.activity.result.contract.ActivityResultContracts
 
 class MainActivity : AppCompatActivity() {
 
@@ -43,19 +58,51 @@ class MainActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
 
+    private lateinit var apiService: ApiService
+
     private val scanLauncher = registerForActivityResult(ScanContract()) { result ->
         if (result.contents != null) {
-            Toast.makeText(this, "QR Code: ${result.contents}", Toast.LENGTH_SHORT).show()
+            val scannedData = result.contents
+            Toast.makeText(this, "Scan Berhasil! Memproses...", Toast.LENGTH_SHORT).show()
+            processScannedData(scannedData)
+        } else {
+            Toast.makeText(this, "Scan Dibatalkan", Toast.LENGTH_SHORT).show()
         }
     }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        btnCamera = findViewById(R.id.btn_camera)
+        geoMap = findViewById(R.id.geoMapPreview)
+        drawerLayout = findViewById(R.id.drawerLayout)
+        navView = findViewById(R.id.navigationView)
+        menuIcon = findViewById(R.id.menuIcon)
+        btnCamera = findViewById(R.id.btn_camera)
+        geoMap = findViewById(R.id.geoMapPreview)
+
 
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
         //disini
+
+        // GANTI IP DI SINI
+        val retrofit = Retrofit.Builder()
+            .baseUrl("http://192.168.1.102:5000/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+
+
+        btnCamera.setOnClickListener {
+            val options = ScanOptions()
+            options.setPrompt("Arahkan kamera ke QR Code Pasien")
+            options.setBeepEnabled(true)
+            options.setOrientationLocked(true)
+            options.setBarcodeImageEnabled(false)
+            scanLauncher.launch(options)
+        }
+
+        apiService = retrofit.create(ApiService::class.java)
         val currentUser = auth.currentUser
         if (currentUser != null) {
             db.collection("users").document(currentUser.uid).get()
@@ -252,6 +299,108 @@ class MainActivity : AppCompatActivity() {
                 cardQueueActive.visibility = View.GONE
             }
     }
+
+    private fun processScannedData(jsonString: String) {
+        try {
+            val gson = Gson()
+            val qrData = gson.fromJson(jsonString, PredictionRequest::class.java)
+
+            if (qrData.age > 0) {
+                // === LOGIKA REAL-TIME ===
+                // Kita ganti jam & hari dari QR dengan Waktu HP Saat Ini
+                val now = Date()
+                val hourFormat = SimpleDateFormat("H", Locale.getDefault()) // 0-23
+                val dayFormat = SimpleDateFormat("u", Locale.getDefault()) // 1=Senin
+
+                val realTimeHour = hourFormat.format(now).toInt()
+                val realTimeDay = dayFormat.format(now).toInt()
+                val isWeekday = if (realTimeDay <= 5) 1 else 0
+
+                // Gabungkan Data QR + Data Realtime
+                // Pastikan PredictionRequest adalah 'data class'
+                val finalData = qrData.copy(
+                    hour1 = realTimeHour,
+                    weekday1 = isWeekday
+                )
+
+                sendToAI(finalData)
+            } else {
+                Toast.makeText(this, "Data QR Tidak Lengkap", Toast.LENGTH_LONG).show()
+            }
+        } catch (e: Exception) {
+            Toast.makeText(this, "QR Error!", Toast.LENGTH_LONG).show()
+        }
+    }
+    private fun sendToAI(data: PredictionRequest) {
+        apiService.predictWaitTime(data).enqueue(object : Callback<PredictionResponse> {
+            override fun onResponse(call: Call<PredictionResponse>, response: Response<PredictionResponse>) {
+                if (response.isSuccessful) {
+                    val res = response.body()
+                    if (res?.status == "success") {
+                        showAIResultDialog(res.result_text ?: "-", res.probability.toString(), data)
+                    } else {
+                        showAIResultDialog("ERROR SERVER", res?.message ?: "-", data)
+                    }
+                } else {
+                    Toast.makeText(applicationContext, "Gagal Koneksi", Toast.LENGTH_LONG).show()
+                }
+            }
+            override fun onFailure(call: Call<PredictionResponse>, t: Throwable) {
+                Toast.makeText(applicationContext, "Error: ${t.message}", Toast.LENGTH_LONG).show()
+            }
+        })
+    }
+
+    private fun showAIResultDialog(status: String, probability: String, inputData: PredictionRequest) {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_scan_result, null)
+        val txtData = dialogView.findViewById<TextView>(R.id.txt_patient_data)
+        val btnClose = dialogView.findViewById<Button>(R.id.btn_close)
+
+        // 1. Waktu Tampilan
+        val now = Date()
+        val formatLengkap = SimpleDateFormat("EEEE, dd MMM yyyy, HH:mm", Locale("id", "ID"))
+        val waktuStr = formatLengkap.format(now) + " WIB"
+
+        // 2. Probabilitas
+        val probPersen = if (status == "ERROR SERVER") "-" else {
+            try {
+                val p = probability.toDouble()
+                val conf = if(status.contains("CEPAT")) (1.0 - p) * 100 else p * 100
+                String.format("%.0f%%", conf)
+            } catch (e: Exception) { "0%" }
+        }
+
+        // 3. Info Lain
+        val rsStr = if (inputData.crowd1 == 1) "Sangat Ramai (High Traffic)" else "Lengang (Low Traffic)"
+
+        val pesanHasil = """
+            ===== HASIL ANALISIS AI =====
+            
+            Estimasi:
+            $status
+            
+            Keyakinan AI:
+            $probPersen
+            
+            -----------------------------
+            DETAIL:
+            • Waktu : $waktuStr
+            • Pasien : Umur ${inputData.age} Tahun
+            • Kondisi RS : $rsStr
+        """.trimIndent()
+
+        txtData.text = pesanHasil
+
+        val dialog = AlertDialog.Builder(this)
+            .setView(dialogView)
+            .setCancelable(false)
+            .create()
+
+        btnClose.setOnClickListener { dialog.dismiss() }
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.show()
+    }
+
 
     private fun setupMap() {
         geoMap.settings.javaScriptEnabled = true
