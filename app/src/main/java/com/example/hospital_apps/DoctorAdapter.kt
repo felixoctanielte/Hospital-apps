@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.CompoundButton
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
@@ -17,6 +18,7 @@ class DoctorAdapter(
     private val onRegister: (Doctor, String) -> Unit
 ) : RecyclerView.Adapter<DoctorAdapter.VH>() {
 
+    // Map untuk menyimpan jam yang dipilih per dokter (Key: Nama Dokter, Value: Jam)
     private val selectedTimes = mutableMapOf<String, String?>()
 
     inner class VH(view: View) : RecyclerView.ViewHolder(view) {
@@ -38,18 +40,44 @@ class DoctorAdapter(
 
     override fun onBindViewHolder(holder: VH, position: Int) {
         val doctor = items[position]
-        holder.tvName.text = doctor.name
+
+        // 1. SAFETY CHECK: Ambil pengidentifikasi unik (Nama atau ID)
+        val docName = doctor.name ?: "Unknown"
+
+        // 2. Set Text
+        holder.tvName.text = doctor.name ?: "Dokter"
         holder.tvStatus.text = if (doctor.isAvailable) "Tersedia" else "Tidak Tersedia"
 
-        Glide.with(holder.itemView.context).load(doctor.hexBgRes).into(holder.ivBg)
-        Glide.with(holder.itemView.context).load(doctor.photoRes).into(holder.ivAvatar)
+        // 3. Load Gambar (PERBAIKAN: Menggunakan imageResId sesuai Model baru)
+        // Load Background Hexagon (jika ada)
+        if (doctor.hexBgRes != 0) {
+            Glide.with(holder.itemView.context).load(doctor.hexBgRes).into(holder.ivBg)
+        }
 
+        // Load Foto Profil (PERBAIKAN DISINI)
+        if (doctor.imageResId != 0) {
+            Glide.with(holder.itemView.context)
+                .load(doctor.imageResId)
+                .into(holder.ivAvatar)
+        } else {
+            // Gambar placeholder jika tidak ada foto
+            holder.ivAvatar.setImageResource(R.drawable.ic_dokter_placeholder)
+        }
+
+        // 4. Logic Chip (Jam Praktek)
         holder.chipGroup.removeAllViews()
         holder.chipGroup.isSingleSelection = true
 
-        val alreadySelected = selectedTimes[doctor.id]
+        val alreadySelected = selectedTimes[docName]
 
-        for (time in doctor.schedule) {
+        // Jika data schedule dari Firestore kosong, buat dummy jam agar user bisa pilih
+        val workingHours = if (doctor.schedule.isEmpty()) {
+            listOf("08:00", "10:00", "13:00", "15:00")
+        } else {
+            doctor.schedule
+        }
+
+        for (time in workingHours) {
             val chip = Chip(holder.itemView.context)
             chip.text = time
             chip.isCheckable = true
@@ -57,30 +85,27 @@ class DoctorAdapter(
             chip.isEnabled = doctor.isAvailable
 
             chip.setOnCheckedChangeListener { _: CompoundButton, isChecked: Boolean ->
-                if (isChecked) selectedTimes[doctor.id] = time
-                else if (selectedTimes[doctor.id] == time) selectedTimes[doctor.id] = null
-
-                holder.btnRegister.isEnabled =
-                    selectedTimes[doctor.id] != null && doctor.isAvailable
+                if (isChecked) {
+                    selectedTimes[docName] = time
+                } else if (selectedTimes[docName] == time) {
+                    selectedTimes[docName] = null
+                }
+                // Update tombol Daftar secara real-time
+                holder.btnRegister.isEnabled = selectedTimes[docName] != null && doctor.isAvailable
             }
             holder.chipGroup.addView(chip)
         }
 
-        holder.btnRegister.isEnabled =
-            (selectedTimes[doctor.id] != null) && doctor.isAvailable
+        // 5. Logic Tombol Daftar
+        holder.btnRegister.isEnabled = (selectedTimes[docName] != null) && doctor.isAvailable
 
         holder.btnRegister.setOnClickListener {
-            val sel = selectedTimes[doctor.id]
-            if (sel != null) onRegister(doctor, sel)
-            else android.widget.Toast.makeText(
-                holder.itemView.context,
-                "Pilih jam terlebih dahulu",
-                android.widget.Toast.LENGTH_SHORT
-            ).show()
-        }
-
-        if (!doctor.isAvailable) {
-            holder.btnRegister.isEnabled = false
+            val sel = selectedTimes[docName]
+            if (sel != null) {
+                onRegister(doctor, sel)
+            } else {
+                Toast.makeText(holder.itemView.context, "Pilih jam terlebih dahulu", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }

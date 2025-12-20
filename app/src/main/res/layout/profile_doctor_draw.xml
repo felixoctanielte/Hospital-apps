@@ -1,45 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="180dp"
+    android:background="#2196F3"
+    android:gravity="bottom"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <!-- Bagian atas biru -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:background="#03A9F4"
-        android:padding="16dp">
+    <ImageView
+        android:id="@+id/doctorImage"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:src="@android:drawable/sym_def_app_icon"
+        android:background="@android:color/white"
+        android:padding="4dp"
+        android:layout_marginBottom="12dp"
+        android:contentDescription="Foto Profil Dokter" />
 
-        <ImageView
-            android:id="@+id/doctorImage"
-            android:layout_width="72dp"
-            android:layout_height="72dp"
-            android:src="@drawable/doctor"
-            android:contentDescription="Doctor Profile Picture"
-            android:background="@drawable/bg_circle_white"
-            android:padding="4dp" />
+    <TextView
+        android:id="@+id/doctorName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dr. John Doe"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/doctorName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Dr. John Doe"
-            android:textColor="@android:color/white"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/doctorSpecialty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Spesialis Jantung"
-            android:textColor="@android:color/white"
-            android:textSize="14sp" />
-    </LinearLayout>
-
-
+    <TextView
+        android:id="@+id/doctorSpecialty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Spesialis Jantung"
+        android:textColor="#E3F2FD"
+        android:textSize="14sp"
+        android:layout_marginTop="4dp"/>
 
 </LinearLayout>

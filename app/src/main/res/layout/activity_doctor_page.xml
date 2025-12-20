@@ -8,243 +8,198 @@
     android:layout_height="match_parent"
     tools:context=".DoctorActivity">
 
-    <!-- ==================== KONTEN UTAMA ==================== -->
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#FAFAFA">
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
-            <!-- ================= HEADER KONTEN UTAMA ================= -->
-            <RelativeLayout
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:background="@drawable/hexagon">
+                android:layout_height="220dp"
+                android:background="@drawable/bg_header_gradient"/>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#8003A9F4" />
+            <View
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:background="@drawable/bg_circle_white"
+                android:backgroundTint="#30FFFFFF"
+                android:layout_gravity="top|end"
+                android:layout_marginTop="-50dp"
+                android:layout_marginEnd="-50dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
 
                 <ImageView
                     android:id="@+id/menuIcon"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_margin="16dp"
-                    android:src="@drawable/ic_menu"
-                    android:contentDescription="Menu Icon"
-                    app:tint="@android:color/white" />
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@android:drawable/ic_menu_sort_by_size"
+                    app:tint="@android:color/white"
+                    android:padding="8dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"/>
 
-                <ImageView
-                    android:id="@+id/mainDoctorImage"
-                    android:layout_width="190dp"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginEnd="6dp"
-                    android:layout_marginBottom="-8dp"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitEnd"
-                    android:src="@drawable/doctor"
-                    android:contentDescription="Doctor Illustration" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="24dp"
-                    android:layout_toStartOf="@id/mainDoctorImage">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="CARING FOR LIFE"
-                        android:textColor="@android:color/white"
-                        android:textSize="14sp"
-                        android:textStyle="bold"
-                        android:letterSpacing="0.05" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="Leading the Way\nin Medical Excellence"
-                        android:textColor="#082A45"
-                        android:textSize="22sp"
-                        android:textStyle="bold"
-                        android:lineSpacingExtra="2dp" />
-                </LinearLayout>
-            </RelativeLayout>
-
-            <!-- ================= DAFTAR PASIEN ================= -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/white"
-                android:orientation="vertical"
-                android:paddingHorizontal="12dp"
-                android:paddingVertical="16dp">
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:text="Daftar Pasien Hari ini"
-                    android:textColor="#000000"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:text="CARING FOR LIFE"
+                    android:textColor="#E1F5FE"
+                    android:letterSpacing="0.1"
+                    android:textSize="12sp"
+                    android:textStyle="bold"/>
 
-                <!-- Daftar pasien -->
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="260dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingHorizontal="12dp"
-                    android:paddingVertical="16dp">
-
-                    <!-- Pasien 1 -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:background="@drawable/hex_purple"
-                        android:orientation="vertical"
-                        android:padding="12dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Pasien A"
-                            android:textColor="#000000"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="📅 13 Oktober 2025"
-                                android:textSize="14sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="16dp"
-                                android:text="⏰ 09:00 WIB"
-                                android:textSize="14sp" />
-                        </LinearLayout>
-
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
-                            android:text="Detail Pasien"
-                            android:textColor="#007BFF"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <!-- Tambahkan pasien lainnya sama seperti di kode awal -->
-
-                </LinearLayout>
+                    android:text="Leading the Way in Medical Excellence"
+                    android:textColor="@android:color/white"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="8dp"/>
             </LinearLayout>
+        </FrameLayout>
 
-            <!-- Pasien Sekarang -->
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="-40dp">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#D6EAF8"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:paddingHorizontal="16dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:text="Pasien Anda Sekarang"
-                    android:textColor="#000000"
+                    android:text="Daftar Pasien Hari Ini"
+                    android:textStyle="bold"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textColor="#37474F"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginStart="4dp"/>
 
-                <LinearLayout
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_today_patients"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_rounded_lightblue"
+                    android:orientation="horizontal"
+                    android:clipToPadding="false"
+                    android:paddingBottom="10dp"
+                    android:minHeight="140dp"/>
+
+                <TextView
+                    android:id="@+id/tv_empty_state"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Tidak ada pasien antri"
+                    android:gravity="center"
+                    android:padding="20dp"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pasien Anda Sekarang"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:textColor="#37474F"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginStart="4dp"/>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="#E0F7FA"> <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="14dp">
+                    android:padding="24dp">
 
                     <TextView
+                        android:id="@+id/tv_current_patient_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Antonio Momeco Sanchez"
-                        android:textColor="#000000"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:text="Menunggu Pasien..."
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="#006064"/>
+
+                    <TextView
+                        android:id="@+id/tv_current_patient_poli"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="-"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#00838F"/>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:layout_marginVertical="8dp"
-                        android:background="#9E9E9E" />
+                        android:background="#B2EBF2"
+                        android:layout_marginVertical="16dp"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Poli : Jantung"
-                        android:textSize="14sp" />
+                        android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Jam : 09:00"
-                        android:textSize="14sp" />
+                        <TextView
+                            android:text="Jam: "
+                            android:textStyle="bold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                        <TextView
+                            android:id="@+id/tv_current_time"
+                            android:text="-"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Antrian : B-13"
-                        android:textSize="14sp" />
+                        <TextView
+                            android:id="@+id/tv_current_status"
+                            android:text="-"
+                            android:textStyle="bold"
+                            android:textColor="#F57C00"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Ruang : Lantai 6 Ruang II"
-                        android:textSize="14sp" />
+
+
                 </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
-                <Button
-                    android:id="@+id/btnSubmit"
+                <Space
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:backgroundTint="#00E676"
-                    android:padding="12dp"
-                    android:text="Submit Hasil Pemeriksaan dan Resep"
-                    android:textAllCaps="false"
-                    android:textColor="@android:color/white"
-                    android:textStyle="bold" />
+                    android:layout_height="40dp"/>
             </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
+        </androidx.core.widget.NestedScrollView>
 
-    <!-- ==================== DRAWER MENU ==================== -->
+    </LinearLayout>
+
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:background="@android:color/white"
         app:headerLayout="@layout/profile_doctor_draw"
-        app:menu="@menu/menu_doctor_sidebar"
-        android:background="@android:color/white" />
+        app:menu="@menu/menu_doctor_sidebar"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>

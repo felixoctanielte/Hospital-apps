@@ -25,21 +25,26 @@ class ScheduleActivity : AppCompatActivity() {
         val recyclerView: RecyclerView = findViewById(R.id.rv_poli)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        // Daftar Poli
+        // --- BAGIAN INI YANG KITA PERBAIKI ---
+        // Sesuaikan nama poli dengan field "specialist" di Firebase agar datanya nyambung
         val poliList = listOf(
-            Poli("p_psikologi", "Psikologi", R.drawable.hex_orange),
-            Poli("p_jantung", "Jantung", R.drawable.hex_red),
-            Poli("p_gigi", "Gigi", R.drawable.hex_green),
-            Poli("p_kehamilan", "Kehamilan", R.drawable.hex_purple),
-            Poli("p_paru", "Paru-Paru", R.drawable.hex_blue),
-            Poli("p_kanker", "Kanker", R.drawable.hex_yellow),
-            Poli("p_tumor", "Tumor", R.drawable.hex_cyan)
+            // 1. Poli UMUM (dr. Tirta)
+            Poli("p1", "Umum", R.drawable.hex_blue),
+
+            // 2. Poli KANDUNGAN (dr. Boyke) -> Perhatikan namanya "Kandungan", bukan "Kehamilan"
+            Poli("p2", "Kandungan", R.drawable.hex_purple),
+
+            // 3. Poli ANAK (dr. Seto)
+            Poli("p3", "Anak", R.drawable.hex_green)
+
+            // Poli lain dihapus dulu supaya tidak membuka halaman kosong
         )
 
-        // Adapter untuk daftar Poli
+        // Adapter
         val adapter = PoliAdapter(poliList) { selectedPoli ->
             val intent = Intent(this, DoctorListActivity::class.java)
-            intent.putExtra("poli", selectedPoli)
+            // UBAH INI: Kirim String nama poli saja, jangan object utuh
+            intent.putExtra("poliName", selectedPoli.name)
             startActivity(intent)
         }
         recyclerView.adapter = adapter
@@ -47,9 +52,16 @@ class ScheduleActivity : AppCompatActivity() {
         // 🔍 Search poli
         val searchView = findViewById<TextInputEditText>(R.id.searchPoli)
         searchView.addTextChangedListener { text ->
-            val filteredList = poliList.filter {
-                it.name.contains(text.toString(), ignoreCase = true)
+            val query = text.toString()
+            val filteredList = if (query.isEmpty()) {
+                poliList
+            } else {
+                poliList.filter {
+                    it.name.contains(query, ignoreCase = true)
+                }
             }
+            // Pastikan di PoliAdapter.kt kamu ada fungsi updateData()
+            // Jika error merah di baris bawah ini, hapus saja bagian search-nya dulu sementara
             adapter.updateData(filteredList)
         }
     }

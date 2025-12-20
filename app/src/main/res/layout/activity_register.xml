@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,18 +14,16 @@
         android:padding="24dp"
         android:gravity="center_horizontal">
 
-        <!-- Tombol Back -->
         <ImageButton
             android:id="@+id/btn_back"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_arrow_back"
+            android:src="@android:drawable/ic_menu_revert"
             android:contentDescription="Back"
-            android:tint="#3CA2E8"
+            app:tint="#3CA2E8"
             android:layout_gravity="start" />
 
-        <!-- Judul -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -36,7 +35,6 @@
             android:layout_marginTop="12dp"
             android:layout_marginBottom="16dp" />
 
-        <!-- Input Nama -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -46,11 +44,11 @@
                 android:id="@+id/et_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textPersonName"
                 android:drawableStart="@android:drawable/ic_menu_myplaces"
                 android:drawablePadding="10dp" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Input Email -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -66,7 +64,6 @@
                 android:drawablePadding="10dp" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Input Nomor HP -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -82,7 +79,6 @@
                 android:drawablePadding="10dp" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Input Password -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -98,18 +94,24 @@
                 android:drawablePadding="10dp" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Tombol Register -->
         <Button
             android:id="@+id/btn_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Daftar"
             android:textAllCaps="false"
+            android:textStyle="bold"
             android:textColor="@android:color/white"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="24dp"
             android:backgroundTint="#3CA2E8" />
 
-        <!-- Link ke Login -->
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_marginTop="10dp"/>
+
         <TextView
             android:id="@+id/tv_signin"
             android:layout_width="wrap_content"
@@ -118,6 +120,8 @@
             android:textColor="#3CA2E8"
             android:textSize="14sp"
             android:layout_gravity="center"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="24dp"/>
+
     </LinearLayout>
 </ScrollView>

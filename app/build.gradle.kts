@@ -61,6 +61,7 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore")
     implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-database")
 
     // Compose for Kotlin 2.0
     implementation("androidx.activity:activity-compose:1.9.2")
