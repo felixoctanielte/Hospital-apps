@@ -23,16 +23,6 @@
         android:theme="@style/Theme.Hospitalapps"
         android:usesCleartextTraffic="true">
 
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="${applicationId}.provider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
-        </provider>
-
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -43,36 +33,11 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".PasienAntrianActivity"/>
-
-        <activity android:name=".PasienRiwayatActivity" android:label="Riwayat Saya"/>
-
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".RegisterActivity" />
-
-        <activity android:name=".UserActivity" android:label="Profil Pengguna" />
-        <activity android:name=".EditUserActivity" android:label="Edit Data Diri" />
-        <activity android:name=".DiseaseSearchActivity" />
-        <activity android:name=".ScheduleActivity" android:label="Jadwal Dokter" />
-        <activity android:name=".ConfirmationActivity" android:label="Konfirmasi Janji" />
-        <activity android:name=".DoctorListActivity" android:label="Daftar Dokter" />
-        <activity android:name=".MapActivity" />
-
-        <activity android:name=".DoctorActivity" />
-        <activity android:name=".AntrianActivity" android:label="Cek Antrian" />
-        <activity android:name=".PerawatanActivity" android:label="Riwayat Perawatan" />
-        <activity android:name=".ProfilActivity" />
-
         <activity
-            android:name=".AdminActivity"
-            android:exported="false"
-            android:label="Admin Dashboard" />
-        <activity android:name=".ShowActivity" android:label="Detail Data" />
-        <activity android:name=".VerifikasiPasienActivity" />
-        <activity
-            android:name=".AdminLaporanActivity"
-            android:exported="true"
-            android:label="Laporan Admin" />
+            android:name=".CustomScannerActivity"
+            android:screenOrientation="portrait"
+            android:stateNotNeeded="true"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
 
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
@@ -80,6 +45,26 @@
             tools:replace="android:screenOrientation"
             android:stateNotNeeded="true" />
 
+        <activity android:name=".PasienAntrianActivity"/>
+        <activity android:name=".PasienRiwayatActivity" android:label="Riwayat Saya"/>
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".RegisterActivity" />
+        <activity android:name=".UserActivity" android:label="Profil Pengguna" />
+        <activity android:name=".EditUserActivity" android:label="Edit Data Diri" />
+        <activity android:name=".DiseaseSearchActivity" />
+        <activity android:name=".ScheduleActivity" android:label="Jadwal Dokter" />
+        <activity android:name=".ConfirmationActivity" android:label="Konfirmasi Janji" />
+        <activity android:name=".DoctorListActivity" android:label="Daftar Dokter" />
+        <activity android:name=".MapActivity" />
+        <activity android:name=".DoctorActivity" />
+        <activity android:name=".AntrianActivity" android:label="Cek Antrian" />
+        <activity android:name=".PerawatanActivity" android:label="Riwayat Perawatan" />
+        <activity android:name=".ProfilActivity" />
+        <activity android:name=".AdminActivity" android:exported="false" android:label="Admin Dashboard" />
+        <activity android:name=".ShowActivity" android:label="Detail Data" />
+        <activity android:name=".VerifikasiPasienActivity" />
+        <activity android:name=".AdminLaporanActivity" android:exported="true" android:label="Laporan Admin" />
+        <activity android:name=".DoctorProfileActivity" android:label="Profil Dokter" />
     </application>
 
 </manifest>

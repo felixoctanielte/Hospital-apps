@@ -7,15 +7,15 @@
             android:icon="@android:drawable/ic_menu_view"
             android:title="Dashboard" />
 
-        <item
-            android:id="@+id/nav_antrian"
-            android:icon="@android:drawable/ic_menu_sort_by_size"
-            android:title="Cek Antrian" />
+<!--        <item-->
+<!--            android:id="@+id/nav_antrian"-->
+<!--            android:icon="@android:drawable/ic_menu_sort_by_size"-->
+<!--            android:title="Cek Antrian" />-->
 
-        <item
-            android:id="@+id/nav_riwayat"
-            android:icon="@android:drawable/ic_menu_recent_history"
-            android:title="Riwayat Perawatan" />
+<!--        <item-->
+<!--            android:id="@+id/nav_riwayat"-->
+<!--            android:icon="@android:drawable/ic_menu_recent_history"-->
+<!--            android:title="Riwayat Perawatan" />-->
     </group>
 
     <item android:title="Akun">

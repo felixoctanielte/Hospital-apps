@@ -1,41 +1,67 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="#DDDDDD"
-    android:padding="16dp">
+    android:layout_height="220dp"
+    android:background="@drawable/bg_nav_header_premium"
+    android:padding="24dp"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <ImageView
-        android:src="@drawable/ic_person"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:contentDescription="Profile"
-        android:layout_gravity="center_vertical" />
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardProfile"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        app:cardCornerRadius="40dp"
+        app:cardElevation="8dp"
+        app:cardBackgroundColor="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@+id/tvHeaderName"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="16dp">
+
+        <ImageView
+            android:id="@+id/imgHeaderProfile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_user_circle"
+            android:scaleType="centerCrop"
+            android:padding="2dp"
+            android:contentDescription="Foto Profil" />
+    </androidx.cardview.widget.CardView>
 
     <TextView
-        android:id="@+id/txtUsername"
+        android:id="@+id/tvHeaderName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="guest"
-
-        android:textSize="16sp"
-        android:layout_marginTop="8dp"
-        android:textColor="@android:color/black" />
+        android:text="Guest User"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@android:color/white"
+        android:shadowColor="#40000000"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="4"
+        app:layout_constraintBottom_toTopOf="@+id/tvHeaderStatus"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="12dp"/>
 
     <TextView
-        android:id="@+id/txtLogin"
+        android:id="@+id/tvHeaderStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:layout_marginBottom="6dp"
-        android:paddingBottom="4dp"
+        android:text="Masuk / Daftar"
+        android:textColor="#FFFFFF"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:letterSpacing="0.05"
+        android:textAllCaps="true"
+        android:background="@drawable/bg_button_ghost_white"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp"
         android:clickable="true"
         android:focusable="true"
-        android:foreground="?attr/selectableItemBackground"
-        android:text="Sambungkan akun anda?"
-        android:textColor="@android:color/holo_blue_dark"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        android:gravity="center_horizontal" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -87,8 +87,8 @@
                     android:text="Daftar Pasien Hari Ini"
                     android:textStyle="bold"
                     android:textSize="16sp"
-                    android:textColor="#37474F"
-                    android:layout_marginBottom="12dp"
+                    android:textColor="@android:color/white"
+                    android:layout_marginBottom="30dp"
                     android:layout_marginStart="4dp"/>
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -97,7 +97,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:clipToPadding="false"
-                    android:paddingBottom="10dp"
+                    android:paddingBottom="1dp"
                     android:minHeight="140dp"/>
 
                 <TextView
@@ -116,9 +116,9 @@
                     android:textStyle="bold"
                     android:textSize="16sp"
                     android:textColor="#37474F"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="05dp"
                     android:layout_marginBottom="12dp"
-                    android:layout_marginStart="4dp"/>
+                    android:layout_marginStart="1dp"/>
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"

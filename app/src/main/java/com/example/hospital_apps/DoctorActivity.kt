@@ -45,7 +45,7 @@ class DoctorActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_doctor_page) // Pastikan nama layout Activity ini benar
+        setContentView(R.layout.activity_doctor_page)
 
         // 1. Init Firebase
         db = FirebaseFirestore.getInstance()
@@ -54,10 +54,10 @@ class DoctorActivity : AppCompatActivity() {
         // 2. Init Views
         initViews()
 
-        // 3. Setup RecyclerView dengan Adapter Baru
+        // 3. Setup RecyclerView
         setupRecyclerView()
 
-        // 4. Setup Navigasi Sidebar
+        // 4. Setup Navigasi Sidebar (Logika Klik Menu)
         setupNavigation()
 
         // 5. Load Data Profil Dokter & Ambil Pasien
@@ -73,7 +73,7 @@ class DoctorActivity : AppCompatActivity() {
         rvPasien = findViewById(R.id.rv_today_patients)
         tvEmptyState = findViewById(R.id.tv_empty_state)
 
-        // Header Info Pasien
+        // Header Info Dashboard
         tvCurrentName = findViewById(R.id.tv_current_patient_name)
         tvCurrentPoli = findViewById(R.id.tv_current_patient_poli)
         tvCurrentTime = findViewById(R.id.tv_current_time)
@@ -81,97 +81,120 @@ class DoctorActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        rvPasien.layoutManager = LinearLayoutManager(this)
+        // Menggunakan Horizontal scroll sesuai desain layout XML
+        rvPasien.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
-        // Inisialisasi DoctorTaskAdapter
         adapter = DoctorTaskAdapter(appointmentList) { selectedAppt ->
-            // Callback saat item diklik: Tampilkan Dialog Ubah Status
             showStatusDialog(selectedAppt)
         }
         rvPasien.adapter = adapter
     }
 
-    private fun loadDoctorProfileAndFetchPatients() {
-        val currentUser = auth.currentUser
-        if (currentUser != null) {
-            val uid = currentUser.uid
+    private fun setupNavigation() {
+        // 1. Tombol Buka Sidebar (Hamburger Menu)
+        menuIcon.setOnClickListener {
+            drawerLayout.openDrawer(GravityCompat.START)
+        }
 
-            // Ambil referensi header sidebar untuk update nama dokter
-            val headerView = navView.getHeaderView(0)
-            val tvName = headerView.findViewById<TextView>(R.id.doctorName)
-            val tvSpec = headerView.findViewById<TextView>(R.id.doctorSpecialty)
-
-            db.collection("users").document(uid).get()
-                .addOnSuccessListener { document ->
-                    if (document.exists()) {
-                        // Ambil nama dokter dari profil
-                        val name = document.getString("name") ?: document.getString("username") ?: "Dokter"
-                        val spec = document.getString("poli") ?: "Dokter Umum"
-
-                        // Update UI Sidebar
-                        tvName?.text = name
-                        tvSpec?.text = spec
-
-                        // Simpan nama dokter untuk filter query appointment
-                        currentDoctorName = name
-
-                        // Mulai ambil data appointment
-                        fetchAppointmentsFirestore(currentDoctorName)
-                    }
+        // 2. Logika Klik Menu di Sidebar
+        navView.setNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.nav_dashboard -> {
+                    // Tutup drawer saja karena sudah di dashboard
+                    drawerLayout.closeDrawer(GravityCompat.START)
                 }
-                .addOnFailureListener {
-                    Toast.makeText(this, "Gagal memuat profil dokter", Toast.LENGTH_SHORT).show()
+                R.id.nav_antrian -> {
+                    Toast.makeText(this, "Fitur Antrian Terbuka", Toast.LENGTH_SHORT).show()
                 }
+                R.id.nav_riwayat -> {
+                    Toast.makeText(this, "Fitur Riwayat Terbuka", Toast.LENGTH_SHORT).show()
+                }
+                R.id.nav_profile -> {
+                    // Direct ke Profil Dokter
+                    startActivity(Intent(this, DoctorProfileActivity::class.java))
+                }
+                R.id.nav_logout -> {
+                    auth.signOut()
+                    val intent = Intent(this, LoginActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                    finish()
+                }
+            }
+            drawerLayout.closeDrawer(GravityCompat.START)
+            true
+        }
+
+        // 3. Logika Klik Header Sidebar (Area Foto/Nama)
+        val headerView = navView.getHeaderView(0)
+        headerView.setOnClickListener {
+            startActivity(Intent(this, DoctorProfileActivity::class.java))
+            drawerLayout.closeDrawer(GravityCompat.START)
         }
     }
 
+    private fun loadDoctorProfileAndFetchPatients() {
+        val currentUser = auth.currentUser ?: return
+        val uid = currentUser.uid
+
+        // Ambil referensi header sidebar untuk update info dokter
+        val headerView = navView.getHeaderView(0)
+        val tvName = headerView.findViewById<TextView>(R.id.doctorName)
+        val tvSpec = headerView.findViewById<TextView>(R.id.doctorSpecialty)
+
+        db.collection("users").document(uid).get()
+            .addOnSuccessListener { document ->
+                if (document.exists()) {
+                    val name = document.getString("name") ?: "Dokter"
+                    val spec = document.getString("poli") ?: "Umum"
+
+                    tvName?.text = name
+                    tvSpec?.text = "Spesialis $spec"
+
+                    currentDoctorName = name
+                    // Ambil data janji temu berdasarkan nama dokter ini
+                    fetchAppointmentsFirestore(currentDoctorName)
+                }
+            }
+    }
+
     private fun fetchAppointmentsFirestore(doctorName: String) {
-        // Query: Cari appointment milik dokter ini yang statusnya aktif
-        // Urutkan berdasarkan waktu (Ascending/Pagi ke Siang)
         firestoreListener = db.collection("appointments")
             .whereEqualTo("doctorName", doctorName)
-            .whereIn("status", listOf("menunggu", "diproses", "sedang diperiksa"))
+            .whereIn("status", listOf("menunggu", "diproses", "sedang diperiksa", "Booked"))
             .orderBy("selectedTime", Query.Direction.ASCENDING)
             .addSnapshotListener { snapshots, e ->
-                if (e != null) {
-                    // Handle error (biasanya karena belum index)
-                    return@addSnapshotListener
-                }
+                if (e != null) return@addSnapshotListener
 
                 appointmentList.clear()
 
                 if (snapshots != null && !snapshots.isEmpty) {
                     for (doc in snapshots) {
                         val appt = doc.toObject(Appointment::class.java)
-                        appt.id = doc.id // Simpan ID dokumen untuk update nanti
+                        appt.id = doc.id
                         appointmentList.add(appt)
                     }
 
-                    // Update UI jika ada data
                     tvEmptyState.visibility = View.GONE
                     rvPasien.visibility = View.VISIBLE
-
-                    // Tampilkan pasien urutan pertama di Header "Pasien Saat Ini"
                     updateCurrentPatientHeader(appointmentList.firstOrNull())
                 } else {
-                    // Update UI jika kosong
                     tvEmptyState.visibility = View.VISIBLE
                     rvPasien.visibility = View.GONE
                     updateCurrentPatientHeader(null)
                 }
-
                 adapter.notifyDataSetChanged()
             }
     }
 
     private fun updateCurrentPatientHeader(appt: Appointment?) {
         if (appt != null) {
-            tvCurrentName.text = appt.patientName ?: "Tanpa Nama"
-            tvCurrentPoli.text = appt.poli ?: "Umum"
+            tvCurrentName.text = appt.patientName ?: "Pasien"
+            tvCurrentPoli.text = appt.poli ?: "-"
             tvCurrentTime.text = "Jam: ${appt.selectedTime}"
-            tvCurrentStatus.text = appt.status?.uppercase() ?: "-"
+            tvCurrentStatus.text = appt.status?.uppercase() ?: "ANTRI"
         } else {
-            tvCurrentName.text = "Tidak ada pasien"
+            tvCurrentName.text = "Menunggu Pasien..."
             tvCurrentPoli.text = "-"
             tvCurrentTime.text = "--:--"
             tvCurrentStatus.text = "STANDBY"
@@ -179,23 +202,15 @@ class DoctorActivity : AppCompatActivity() {
     }
 
     private fun showStatusDialog(appointment: Appointment) {
-        // Pilihan aksi untuk dokter
-        val options = arrayOf("Mulai Periksa (Hijau)", "Selesai Periksa (Hapus dari List)", "Batal")
+        val options = arrayOf("Panggil Pasien", "Selesai Periksa", "Batal")
 
         AlertDialog.Builder(this)
-            .setTitle("Aksi: ${appointment.patientName}")
+            .setTitle("Aksi untuk ${appointment.patientName}")
             .setItems(options) { _, which ->
                 val docId = appointment.id ?: return@setItems
-                var newStatus = ""
-
                 when (which) {
-                    0 -> newStatus = "diproses" // Ubah warna jadi hijau
-                    1 -> newStatus = "selesai"  // Akan hilang dari list karena filter query
-                    2 -> return@setItems // Batal
-                }
-
-                if (newStatus.isNotEmpty()) {
-                    updateStatusInFirestore(docId, newStatus)
+                    0 -> updateStatusInFirestore(docId, "diproses")
+                    1 -> updateStatusInFirestore(docId, "selesai")
                 }
             }
             .show()
@@ -205,35 +220,12 @@ class DoctorActivity : AppCompatActivity() {
         db.collection("appointments").document(docId)
             .update("status", status)
             .addOnSuccessListener {
-                Toast.makeText(this, "Status diubah menjadi $status", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Status diperbarui", Toast.LENGTH_SHORT).show()
             }
-            .addOnFailureListener {
-                Toast.makeText(this, "Gagal update status", Toast.LENGTH_SHORT).show()
-            }
-    }
-
-    private fun setupNavigation() {
-        menuIcon.setOnClickListener { drawerLayout.openDrawer(GravityCompat.START) }
-
-        navView.setNavigationItemSelectedListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.nav_logout -> {
-                    auth.signOut()
-                    val intent = Intent(this, LoginActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    startActivity(intent)
-                    finish()
-                }
-                // Tambahkan case lain jika ada menu lain di sidebar dokter
-            }
-            drawerLayout.closeDrawer(GravityCompat.START)
-            true
-        }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        // Hentikan listener realtime saat activity ditutup untuk hemat baterai/data
         firestoreListener?.remove()
     }
 }

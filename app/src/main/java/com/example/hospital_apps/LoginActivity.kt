@@ -122,4 +122,29 @@ class LoginActivity : AppCompatActivity() {
             finish()
         }
     }
+    override fun onStart() {
+        super.onStart()
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            // Jika user sudah login (Auto-login saat restart)
+            // Cek Role di Firestore sebelum menentukan halaman
+            val db = FirebaseFirestore.getInstance()
+            db.collection("users").document(currentUser.uid).get()
+                .addOnSuccessListener { document ->
+                    val role = document.getString("role")
+                    if (role == "dokter") {
+                        // Jika dia dokter, lempar ke DoctorActivity
+                        startActivity(Intent(this, DoctorActivity::class.java))
+                    } else {
+                        // Jika dia pasien, lempar ke MainActivity (file yang kamu kirim)
+                        startActivity(Intent(this, MainActivity::class.java))
+                    }
+                    finish() // Hapus dari backstack
+                }
+                .addOnFailureListener {
+                    // Jika gagal cek role, paksa login ulang
+                    auth.signOut()
+                }
+        }
+    }
 }
