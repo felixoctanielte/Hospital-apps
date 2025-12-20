@@ -108,7 +108,6 @@ class LoginActivity : AppCompatActivity() {
                 }
         }
 
-        // --- Penanganan Tombol Lain ---
 
         btnGoogle.setOnClickListener {
             Toast.makeText(this, "Google Login belum dihubungkan", Toast.LENGTH_SHORT).show()

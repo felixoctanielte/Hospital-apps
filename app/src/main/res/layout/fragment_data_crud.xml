@@ -1,9 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:padding="12dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- Tombol Navigasi Dokter, Poli, Pasien -->
+    <Button
+        android:id="@+id/btnDokter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Dokter"
+        android:backgroundTint="#2196F3"
+        android:layout_marginBottom="4dp"/>
+
+    <Button
+        android:id="@+id/btnPoli"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Poli"
+        android:backgroundTint="#03A9F4"
+        android:layout_marginBottom="4dp"/>
+
+    <Button
+        android:id="@+id/btnPasien"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pasien"
+        android:backgroundTint="#00BCD4"
+        android:layout_marginBottom="8dp"/>
+
+    <!-- Tombol Back -->
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        android:backgroundTint="#9E9E9E"
+        android:layout_marginBottom="8dp"/>
+
+    <!-- Input Form -->
     <EditText
         android:id="@+id/editName"
         android:layout_width="match_parent"
@@ -17,6 +53,7 @@
         android:hint="Spesialis / Keterangan"
         android:layout_marginTop="8dp"/>
 
+    <!-- Tombol CRUD -->
     <Button
         android:id="@+id/btnCreate"
         android:layout_width="match_parent"
@@ -41,6 +78,7 @@
         android:backgroundTint="#F44336"
         android:layout_marginTop="8dp"/>
 
+    <!-- RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"

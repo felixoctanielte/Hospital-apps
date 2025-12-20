@@ -12,7 +12,6 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Tombol back -->
         <ImageButton
             android:id="@+id/buttonBack"
             android:layout_width="36dp"
@@ -28,7 +27,6 @@
             android:layout_width="72dp"
             android:layout_height="72dp"
             android:background="@drawable/bg_circle_white"
-            android:contentDescription="Doctor Profile Picture"
             android:padding="5dp"
             android:src="@drawable/doctor" />
 
@@ -36,8 +34,7 @@
             android:id="@+id/doctorName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:text="Dr. John Doe"
+            android:text="Nama Dokter"
             android:textColor="@android:color/white"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -46,12 +43,12 @@
             android:id="@+id/doctorSpecialty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Spesialis Jantung"
+            android:text="Spesialis"
             android:textColor="@android:color/white"
             android:textSize="14sp" />
     </LinearLayout>
 
-    <!-- Bagian bawah putih -->
+    <!-- Bagian bawah -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -61,78 +58,56 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center_horizontal">
+            android:orientation="vertical">
 
-            <!-- Box NIP -->
+            <!-- SIP -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:padding="16dp"
                 android:background="@drawable/bg_box_white"
-                android:elevation="4dp"
                 android:layout_marginBottom="12dp">
 
                 <TextView
+                    android:id="@+id/tvSip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="NIP: 123456789"
-                    android:textColor="#000"
-                    android:textSize="14sp" />
+                    android:text="SIP: -"
+                    android:textSize="14sp"
+                    android:textColor="#000" />
             </LinearLayout>
 
-            <!-- Box Pendidikan -->
+            <!-- Email -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:padding="16dp"
                 android:background="@drawable/bg_box_white"
-                android:elevation="4dp"
                 android:layout_marginBottom="12dp">
 
                 <TextView
+                    android:id="@+id/tvEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Pendidikan: Universitas Indonesia"
-                    android:textColor="#000"
-                    android:textSize="14sp" />
+                    android:text="Email: -"
+                    android:textSize="14sp"
+                    android:textColor="#000" />
             </LinearLayout>
 
-            <!-- Box Pengalaman -->
+            <!-- Phone -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:padding="16dp"
-                android:background="@drawable/bg_box_white"
-                android:elevation="4dp"
-                android:layout_marginBottom="12dp">
+                android:background="@drawable/bg_box_white">
 
                 <TextView
+                    android:id="@+id/tvPhone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Pengalaman: 10 Tahun"
-                    android:textColor="#000"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
-            <!-- Box Kontak -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="16dp"
-                android:background="@drawable/bg_box_white"
-                android:elevation="4dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Kontak: 081234567890"
-                    android:textColor="#000"
-                    android:textSize="14sp" />
+                    android:text="Kontak: -"
+                    android:textSize="14sp"
+                    android:textColor="#000" />
             </LinearLayout>
 
         </LinearLayout>

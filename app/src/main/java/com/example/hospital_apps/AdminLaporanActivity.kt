@@ -39,10 +39,10 @@ class AdminLaporanActivity : AppCompatActivity() {
         btnBack.setOnClickListener {
             val intent = Intent(this, AdminActivity::class.java)
             startActivity(intent)
-            finish() // opsional, supaya tidak bisa kembali ke halaman ini pakai tombol back
+            finish()
         }
 
-        // 🔹 Data dummy
+        //  Data dummy
         dummyData = listOf(
             arrayOf("1", "Budi Santoso", "3201011234560001", "Poli Umum", "dr. Andi", "10 Okt 2025", "Terverifikasi"),
             arrayOf("2", "Siti Aminah", "3201021234560002", "Poli Gigi", "drg. Rina", "10 Okt 2025", "Terverifikasi"),
@@ -68,12 +68,12 @@ class AdminLaporanActivity : AppCompatActivity() {
 
         setupSpinners()
 
-        // 🔹 Aksi tombol
+        //  Aksi tombol
         btnTampilkan.setOnClickListener { filterAndShowData() }
         btnUnduh.setOnClickListener { generatePDF() }
     }
 
-    // 🔹 Isi pilihan Spinner
+    //  Isi pilihan Spinner
     private fun setupSpinners() {
         val poliList = listOf("Semua", "Poli Umum", "Poli Gigi", "Poli Anak", "Poli Mata")
         val dokterList = listOf("Semua", "dr. Andi", "drg. Rina", "dr. Dwi", "dr. Sari")
@@ -84,7 +84,7 @@ class AdminLaporanActivity : AppCompatActivity() {
         spStatus.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, statusList)
     }
 
-    // 🔹 Filter + tampilkan tabel
+    //  Filter + tampilkan tabel
     private fun filterAndShowData() {
         val selectedPoli = spPoli.selectedItem.toString()
         val selectedDokter = spDokter.selectedItem.toString()
@@ -105,7 +105,7 @@ class AdminLaporanActivity : AppCompatActivity() {
         tampilkanTabel(filteredData)
     }
 
-    // 🔹 Tampilkan data di tabel
+    //  Tampilkan data di tabel
     private fun tampilkanTabel(data: List<Array<String>>) {
         tableLayout.removeAllViews()
 
@@ -140,7 +140,7 @@ class AdminLaporanActivity : AppCompatActivity() {
         Toast.makeText(this, "Ditemukan ${data.size} data", Toast.LENGTH_SHORT).show()
     }
 
-    // 🔹 Fungsi generate PDF (sama seperti sebelumnya)
+    //  Fungsi generate PDF (sama seperti sebelumnya)
     private fun generatePDF() {
         val pdfDocument = android.graphics.pdf.PdfDocument()
         val paint = Paint()

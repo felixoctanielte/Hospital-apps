@@ -8,9 +8,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+
 
 class AdminActivity : AppCompatActivity() {
-
+    private lateinit var auth: FirebaseAuth
+    private lateinit var db: FirebaseFirestore
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navView: NavigationView
     private lateinit var menuIcon: ImageView
