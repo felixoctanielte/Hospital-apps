@@ -1,23 +1,28 @@
 # 🏥 Clinic & Quick  
 **Aplikasi Rumah Sakit Rawat Jalan**  
-_Mobile Application Programming – UTS Project_
+_Mobile Application Programming – UAS Project_
 
 ---
 
 ## 📖 Deskripsi Aplikasi
 **Clinic & Quick** adalah aplikasi mobile berbasis **Android** yang dirancang untuk meningkatkan efisiensi sistem **antrian rawat jalan di rumah sakit**.  
-Melalui aplikasi ini, pasien dapat melakukan **pendaftaran poli online**, memilih dokter dan jadwal praktik, serta memantau **status antrian secara real-time** tanpa harus menunggu lama di rumah sakit.
+Melalui aplikasi ini, pasien dapat melakukan **pendaftaran poli secara online**, memilih dokter dan jadwal praktik, serta memantau **status antrian secara real-time** tanpa harus menunggu lama di rumah sakit.
 
-Aplikasi ini juga dilengkapi dengan fitur **Machine Learning** untuk memperkirakan **estimasi waktu tunggu pasien**, berdasarkan data historis antrian dan durasi pelayanan dokter.  
-Selain itu, sistem memiliki 3 peran utama — **Pasien**, **Dokter**, dan **Admin Rumah Sakit** — dengan fungsi dan hak akses yang berbeda-beda.
+Aplikasi ini menggunakan **Firebase Cloud Firestore** sebagai backend utama serta **Firebase Authentication** untuk manajemen akun pengguna.  
+Selain itu, aplikasi terintegrasi dengan **API berbasis Python** yang dideploy di **PythonAnywhere** untuk mendukung proses backend tambahan.
+
+Sistem memiliki **3 peran utama**, yaitu:
+- **Pasien**
+- **Dokter**
+- **Admin Rumah Sakit**
 
 ---
 
-## 🎯 Tujuan Utama
-- Mengurangi waktu tunggu pasien secara signifikan.  
-- Mempermudah proses pendaftaran dan manajemen antrian.  
-- Mendukung digitalisasi sistem rumah sakit melalui aplikasi mobile.  
-- Menyediakan data laporan yang akurat dan terstruktur untuk admin rumah sakit.
+## 🎯 Tujuan Aplikasi
+- Mengurangi waktu tunggu pasien di rumah sakit  
+- Digitalisasi sistem pendaftaran rawat jalan  
+- Mempermudah manajemen antrian dan data pasien  
+- Menyediakan sistem yang terstruktur dan mudah diuji  
 
 ---
 
@@ -37,44 +42,103 @@ Selain itu, sistem memiliki 3 peran utama — **Pasien**, **Dokter**, dan **Admi
 
 ---
 
-## 🌟 Fitur Unggulan
+## 🌟 Fitur Utama
 
-### 👨‍⚕️ Untuk Pasien:
-- Pendaftaran rawat jalan secara online  
-- Melihat jadwal dokter dan daftar poli  
-- Melihat estimasi waktu tunggu antrian  
-- Melihat riwayat kunjungan dan hasil pemeriksaan  
-- Scan QR untuk melihat status antrian  
+### 👤 Pasien
+- Registrasi dan login akun pasien  
+- Pendaftaran rawat jalan (appointment)  
+- Memilih poli dan dokter  
+- Melihat status antrian (**Menunggu / Diproses / Selesai**)  
+- Melihat riwayat kunjungan  
 
-### 🩺 Untuk Dokter:
+### 🩺 Dokter
 - Melihat daftar pasien hari ini  
-- Menginput hasil pemeriksaan dan resep  
-- Melihat riwayat pasien sebelumnya  
-- Mengelola profil dokter  
+- Mengubah status pemeriksaan pasien  
+- Melihat data pasien  
+- Mengelola akun dokter  
 
-### 🧾 Untuk Admin:
-- CRUD **Master Data** (Poli, Dokter, Pasien)  
-- Verifikasi data pasien baru  
-- Manajemen akun dan hak akses pengguna  
-- Membuat dan mengunduh **laporan harian (PDF/Excel)**  
+### 🧾 Admin
+- CRUD **Master Data**:
+  - Poli
+  - Dokter
+  - Pasien
+- Manajemen akun pengguna  
+- Monitoring seluruh appointment  
 
 ---
 
 ## 🧠 Teknologi yang Digunakan
+
 | Komponen | Teknologi |
-|-----------|------------|
-| Bahasa Pemrograman | **Kotlin** |
-| Framework | **Android Jetpack (ViewModel, LiveData, Navigation)** |
-| Database | **Firebase / SQLite (opsional)** |
-| API Integrasi | **GeoLocation API**, **ICD & MyHealthFinder API** |
-| Desain UI | **Material Design (XML Layout)** |
-| ML Model | Estimasi waktu tunggu berbasis data antrian |
-| Build System | **Gradle (KTS)** |
+|--------|----------|
+| Bahasa Pemrograman | Kotlin |
+| Platform | Android |
+| UI Design | Material Design (XML) |
+| Database | Firebase Cloud Firestore |
+| Authentication | Firebase Authentication |
+| Backend API | Python (Flask) |
+| API Deployment | PythonAnywhere |
+| Build System | Gradle |
 
 ---
 
-## 📲 Cara Instalasi & Menjalankan Aplikasi
+## ☁️ Struktur Firebase (Cloud Firestore)
 
-1. **Clone Repository**
+Struktur utama koleksi pada Firebase:
+appointments
+dokter
+pasien
+poli
+users
+
+Semua data antrian, dokter, pasien, dan pengguna disimpan secara **real-time** menggunakan Cloud Firestore.
+
+---
+
+## 🔗 API Integration (Python)
+
+Aplikasi terintegrasi dengan API berbasis Python yang di-deploy di PythonAnywhere:
+
+https://levonchka.pythonanywhere.com
+
+
+---
+
+## 🔐 Akun Demo (Login Credentials)
+
+Gunakan akun berikut untuk **menguji aplikasi tanpa perlu registrasi**:
+
+### 👤 Pasien
+Email: jeremyd@gmail.com
+Password: 123456
+
+Email: domi@gmail.com
+Password: 123456
+
+
+### 🩺 Dokter
+Email: tirta@gmail.com
+Password: 123456
+
+Email: peter@gmail.com
+Password: 1234567
+
+
+### 🧾 Admin
+Email: admin@gmail.com
+Password: 1234567
+
+---
+
+## 📲 Cara Menjalankan Aplikasi
+
+1. Clone repository
    ```bash
    git clone https://github.com/yourusername/clinic-n-quick.git
+2. Buka project menggunakan Android Studio
+3. Pastikan koneksi internet aktif
+(Aplikasi menggunakan Firebase Cloud Firestore dan API Python)
+4. Jalankan aplikasi di emulator atau device fisik
+5. Login menggunakan akun demo sesuai role yang ingin diuji
+
+
