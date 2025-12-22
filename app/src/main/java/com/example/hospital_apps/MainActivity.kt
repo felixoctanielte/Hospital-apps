@@ -1,7 +1,9 @@
 package com.example.hospital_apps
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -13,23 +15,19 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.gson.Gson
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanOptions
-import java.util.Date
-import java.util.Locale
-import android.app.AlertDialog
-import java.text.SimpleDateFormat
-import com.google.gson.Gson
+import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
-
 import retrofit2.converter.gson.GsonConverterFactory
-
-import android.webkit.WebSettings
-import android.widget.*
-import androidx.activity.result.contract.ActivityResultContracts
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
@@ -40,7 +38,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btnCamera: ImageButton
     private lateinit var geoMap: WebView
     private lateinit var tvWelcomeName: TextView
-    private lateinit var btnProfileHeader: CardView // Variable untuk tombol profil di header
+    private lateinit var btnProfileHeader: CardView
 
     // Dashboard Cards
     private lateinit var cardGuestMode: CardView
@@ -58,63 +56,62 @@ class MainActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
 
+    // --- TAMBAHAN UNTUK AI/ML ---
     private lateinit var apiService: ApiService
 
+    // Launcher Scan
     private val scanLauncher = registerForActivityResult(ScanContract()) { result ->
         if (result.contents != null) {
             val scannedData = result.contents
-            Toast.makeText(this, "Scan Berhasil! Memproses...", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Scan Berhasil! Sedang menganalisis...", Toast.LENGTH_SHORT).show()
             processScannedData(scannedData)
         } else {
             Toast.makeText(this, "Scan Dibatalkan", Toast.LENGTH_SHORT).show()
         }
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        btnCamera = findViewById(R.id.btn_camera)
-        geoMap = findViewById(R.id.geoMapPreview)
-        drawerLayout = findViewById(R.id.drawerLayout)
-        navView = findViewById(R.id.navigationView)
-        menuIcon = findViewById(R.id.menuIcon)
-        btnCamera = findViewById(R.id.btn_camera)
-        geoMap = findViewById(R.id.geoMapPreview)
 
-
+        // 1. Setup Firebase
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
-        //disini
 
-        // GANTI IP DI SINI
-        val retrofit = Retrofit.Builder()
-            .baseUrl("http://192.168.1.102:5000/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-
-
-        btnCamera.setOnClickListener {
-            val options = ScanOptions()
-            options.setPrompt("Arahkan kamera ke QR Code Pasien")
-            options.setBeepEnabled(true)
-            options.setOrientationLocked(true)
-            options.setBarcodeImageEnabled(false)
-            scanLauncher.launch(options)
-        }
-
-        apiService = retrofit.create(ApiService::class.java)
+        // Cek Role Dokter
         val currentUser = auth.currentUser
         if (currentUser != null) {
             db.collection("users").document(currentUser.uid).get()
                 .addOnSuccessListener { document ->
                     val role = document.getString("role")
                     if (role == "dokter") {
-                        // Jika "nyasar" ke sini padahal dokter, paksa pindah ke page dokter
                         startActivity(Intent(this, DoctorActivity::class.java))
                         finish()
                     }
                 }
         }
+
+        // 2. Setup Retrofit dengan TIMEOUT PANJANG (Solusi Server Lambat)
+        try {
+            // Setting Timeout jadi 60 Detik (Default Android cuma 10 detik)
+            val client = OkHttpClient.Builder()
+                .connectTimeout(60, TimeUnit.SECONDS) // Waktu nyambung ke server
+                .readTimeout(60, TimeUnit.SECONDS)    // Waktu nunggu server mikir (AI process)
+                .writeTimeout(60, TimeUnit.SECONDS)   // Waktu kirim data
+                .build()
+
+            val retrofit = Retrofit.Builder()
+                .baseUrl("https://levonchka.pythonanywhere.com/") // Pastikan akhiran '/'
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(client) // <--- PENTING: Memasukkan settingan timeout tadi
+                .build()
+
+            apiService = retrofit.create(ApiService::class.java)
+
+        } catch (e: Exception) {
+            Toast.makeText(this, "Error Config: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
+
         try {
             initViews()
             setupListeners()
@@ -143,7 +140,7 @@ class MainActivity : AppCompatActivity() {
         btnCamera = findViewById(R.id.btn_camera)
         geoMap = findViewById(R.id.geoMapPreview)
         tvWelcomeName = findViewById(R.id.tvWelcomeName)
-        btnProfileHeader = findViewById(R.id.btnProfileHeader) // Bind tombol profil
+        btnProfileHeader = findViewById(R.id.btnProfileHeader)
 
         cardGuestMode = findViewById(R.id.cardGuestMode)
         cardQueueEmpty = findViewById(R.id.cardQueueEmpty)
@@ -157,7 +154,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupListeners() {
-        // 1. Sidebar Toggle
         menuIcon.setOnClickListener {
             if (drawerLayout.isDrawerOpen(GravityCompat.START))
                 drawerLayout.closeDrawer(GravityCompat.START)
@@ -165,18 +161,14 @@ class MainActivity : AppCompatActivity() {
                 drawerLayout.openDrawer(GravityCompat.START)
         }
 
-        // 2. Klik Profil di Header
         btnProfileHeader.setOnClickListener {
             if (auth.currentUser != null) {
-                // Ke Halaman Profil
                 startActivity(Intent(this, UserActivity::class.java))
             } else {
-                // Ke Halaman Login
                 startActivity(Intent(this, LoginActivity::class.java))
             }
         }
 
-        // 3. Navigasi Sidebar
         navView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.nav_antrian -> startActivity(Intent(this, PasienAntrianActivity::class.java))
@@ -188,21 +180,19 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-        // 4. Tombol Login Guest
         btnLoginGuest.setOnClickListener {
             startActivity(Intent(this, LoginActivity::class.java))
         }
 
-        // 5. Custom Scanner
         btnCamera.setOnClickListener {
             val options = ScanOptions()
             options.setCaptureActivity(CustomScannerActivity::class.java)
+            options.setPrompt("Arahkan kamera ke QR Code Pasien")
             options.setOrientationLocked(true)
             options.setBeepEnabled(true)
             scanLauncher.launch(options)
         }
 
-        // 6. Kategori
         setupCategoryClick(R.id.btn_jantung, "heart disease")
         setupCategoryClick(R.id.btn_gigi, "tooth infection")
         setupCategoryClick(R.id.btn_paru, "lung disease")
@@ -219,7 +209,121 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // --- Header Sidebar Logic ---
+    // ==========================================
+    // BAGIAN LOGIKA AI / MACHINE LEARNING
+    // ==========================================
+
+    private fun processScannedData(jsonString: String) {
+        // Tampilkan Loading Dialog (Opsional tapi bagus untuk User Experience)
+        Toast.makeText(this, "Sedang menghubungi AI Server...", Toast.LENGTH_LONG).show()
+
+        try {
+            val gson = Gson()
+            val qrData = gson.fromJson(jsonString, PredictionRequest::class.java)
+
+            if (qrData.age > 0) {
+                val now = Date()
+                val hourFormat = SimpleDateFormat("H", Locale.getDefault())
+                val dayFormat = SimpleDateFormat("u", Locale.getDefault())
+
+                val realTimeHour = hourFormat.format(now).toInt()
+                val realTimeDay = dayFormat.format(now).toInt()
+                val isWeekday = if (realTimeDay <= 5) 1 else 0
+
+                val finalData = qrData.copy(
+                    hour1 = realTimeHour,
+                    weekday1 = isWeekday
+                )
+
+                sendToAI(finalData)
+            } else {
+                Toast.makeText(this, "Data QR Tidak Lengkap", Toast.LENGTH_LONG).show()
+            }
+        } catch (e: Exception) {
+            Toast.makeText(this, "Format QR Salah! Gunakan QR Pasien.", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun sendToAI(data: PredictionRequest) {
+        apiService.predictWaitTime(data).enqueue(object : Callback<PredictionResponse> {
+            override fun onResponse(call: Call<PredictionResponse>, response: Response<PredictionResponse>) {
+                if (response.isSuccessful) {
+                    val res = response.body()
+                    if (res?.status == "success") {
+                        showAIResultDialog(res.result_text ?: "-", res.probability.toString(), data)
+                    } else {
+                        showAIResultDialog("ERROR SERVER", res?.message ?: "Unknown Error", data)
+                    }
+                } else {
+                    // Menangani error HTTP (misal 404, 500)
+                    Toast.makeText(applicationContext, "Gagal: Server Error code ${response.code()}", Toast.LENGTH_LONG).show()
+                }
+            }
+
+            override fun onFailure(call: Call<PredictionResponse>, t: Throwable) {
+                // Menangani error koneksi (Timeout, No Internet)
+                val pesanError = if (t.message?.contains("timeout") == true) {
+                    "Server sibuk (Timeout). Coba lagi dalam 10 detik."
+                } else {
+                    "Koneksi Gagal: ${t.localizedMessage}"
+                }
+
+                Toast.makeText(applicationContext, pesanError, Toast.LENGTH_LONG).show()
+                Log.e("API_ERROR", "Detail: ${t.message}")
+            }
+        })
+    }
+
+    private fun showAIResultDialog(status: String, probability: String, inputData: PredictionRequest) {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_scan_result, null)
+        val txtData = dialogView.findViewById<TextView>(R.id.txt_patient_data)
+        val btnClose = dialogView.findViewById<Button>(R.id.btn_close)
+
+        val now = Date()
+        val formatLengkap = SimpleDateFormat("EEEE, dd MMM yyyy, HH:mm", Locale("id", "ID"))
+        val waktuStr = formatLengkap.format(now) + " WIB"
+
+        val probPersen = if (status == "ERROR SERVER") "-" else {
+            try {
+                val p = probability.toDouble()
+                val conf = if(status.contains("CEPAT")) (1.0 - p) * 100 else p * 100
+                String.format("%.0f%%", conf)
+            } catch (e: Exception) { "0%" }
+        }
+
+        val rsStr = if (inputData.crowd1 == 1) "Sangat Ramai (High Traffic)" else "Lengang (Low Traffic)"
+
+        val pesanHasil = """
+            ===== HASIL ANALISIS AI =====
+            
+            Estimasi:
+            $status
+            
+            Keyakinan AI:
+            $probPersen
+            
+            -----------------------------
+            DETAIL:
+            • Waktu : $waktuStr
+            • Pasien : Umur ${inputData.age} Tahun
+            • Kondisi RS : $rsStr
+        """.trimIndent()
+
+        txtData.text = pesanHasil
+
+        val dialog = AlertDialog.Builder(this)
+            .setView(dialogView)
+            .setCancelable(false)
+            .create()
+
+        btnClose.setOnClickListener { dialog.dismiss() }
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.show()
+    }
+
+    // ... LOGIKA UI LAINNYA TETAP SAMA SEPERTI SEBELUMNYA ...
+    // ... (updateDashboardUI, updateNavigationHeader, checkActiveQueue, setupMap) ...
+    // copy paste saja bagian bawahnya dari kode sebelumnya kalau belum ada
     private fun updateNavigationHeader() {
         val headerView = navView.getHeaderView(0)
         val tvHeaderName = headerView.findViewById<TextView>(R.id.tvHeaderName)
@@ -250,7 +354,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // --- Dashboard Logic ---
     private fun updateDashboardUI() {
         val currentUser = auth.currentUser
         if (currentUser == null) {
@@ -300,112 +403,14 @@ class MainActivity : AppCompatActivity() {
             }
     }
 
-    private fun processScannedData(jsonString: String) {
-        try {
-            val gson = Gson()
-            val qrData = gson.fromJson(jsonString, PredictionRequest::class.java)
-
-            if (qrData.age > 0) {
-                // === LOGIKA REAL-TIME ===
-                // Kita ganti jam & hari dari QR dengan Waktu HP Saat Ini
-                val now = Date()
-                val hourFormat = SimpleDateFormat("H", Locale.getDefault()) // 0-23
-                val dayFormat = SimpleDateFormat("u", Locale.getDefault()) // 1=Senin
-
-                val realTimeHour = hourFormat.format(now).toInt()
-                val realTimeDay = dayFormat.format(now).toInt()
-                val isWeekday = if (realTimeDay <= 5) 1 else 0
-
-                // Gabungkan Data QR + Data Realtime
-                // Pastikan PredictionRequest adalah 'data class'
-                val finalData = qrData.copy(
-                    hour1 = realTimeHour,
-                    weekday1 = isWeekday
-                )
-
-                sendToAI(finalData)
-            } else {
-                Toast.makeText(this, "Data QR Tidak Lengkap", Toast.LENGTH_LONG).show()
-            }
-        } catch (e: Exception) {
-            Toast.makeText(this, "QR Error!", Toast.LENGTH_LONG).show()
-        }
-    }
-    private fun sendToAI(data: PredictionRequest) {
-        apiService.predictWaitTime(data).enqueue(object : Callback<PredictionResponse> {
-            override fun onResponse(call: Call<PredictionResponse>, response: Response<PredictionResponse>) {
-                if (response.isSuccessful) {
-                    val res = response.body()
-                    if (res?.status == "success") {
-                        showAIResultDialog(res.result_text ?: "-", res.probability.toString(), data)
-                    } else {
-                        showAIResultDialog("ERROR SERVER", res?.message ?: "-", data)
-                    }
-                } else {
-                    Toast.makeText(applicationContext, "Gagal Koneksi", Toast.LENGTH_LONG).show()
-                }
-            }
-            override fun onFailure(call: Call<PredictionResponse>, t: Throwable) {
-                Toast.makeText(applicationContext, "Error: ${t.message}", Toast.LENGTH_LONG).show()
-            }
-        })
-    }
-
-    private fun showAIResultDialog(status: String, probability: String, inputData: PredictionRequest) {
-        val dialogView = layoutInflater.inflate(R.layout.dialog_scan_result, null)
-        val txtData = dialogView.findViewById<TextView>(R.id.txt_patient_data)
-        val btnClose = dialogView.findViewById<Button>(R.id.btn_close)
-
-        // 1. Waktu Tampilan
-        val now = Date()
-        val formatLengkap = SimpleDateFormat("EEEE, dd MMM yyyy, HH:mm", Locale("id", "ID"))
-        val waktuStr = formatLengkap.format(now) + " WIB"
-
-        // 2. Probabilitas
-        val probPersen = if (status == "ERROR SERVER") "-" else {
-            try {
-                val p = probability.toDouble()
-                val conf = if(status.contains("CEPAT")) (1.0 - p) * 100 else p * 100
-                String.format("%.0f%%", conf)
-            } catch (e: Exception) { "0%" }
-        }
-
-        // 3. Info Lain
-        val rsStr = if (inputData.crowd1 == 1) "Sangat Ramai (High Traffic)" else "Lengang (Low Traffic)"
-
-        val pesanHasil = """
-            ===== HASIL ANALISIS AI =====
-            
-            Estimasi:
-            $status
-            
-            Keyakinan AI:
-            $probPersen
-            
-            -----------------------------
-            DETAIL:
-            • Waktu : $waktuStr
-            • Pasien : Umur ${inputData.age} Tahun
-            • Kondisi RS : $rsStr
-        """.trimIndent()
-
-        txtData.text = pesanHasil
-
-        val dialog = AlertDialog.Builder(this)
-            .setView(dialogView)
-            .setCancelable(false)
-            .create()
-
-        btnClose.setOnClickListener { dialog.dismiss() }
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        dialog.show()
-    }
-
-
     private fun setupMap() {
         geoMap.settings.javaScriptEnabled = true
         geoMap.webViewClient = WebViewClient()
-        val htmlContent = "<html><body style='margin:0;padding:0;'><iframe width='100%' height='100%' frameborder='0' src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.052!2d106.618!3d-6.256!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwMTUnMjEuNiJTIDEwNsKwMzcnMDQuOCJF!5e0!3m2!1sen!2sid!4v16345'></iframe></body></html>"
-        geoMap.loadData(htmlContent, "text/html", "UTF-8")
+        val apiKey = "283f56a80bb04fd6a65cd9b98b46f18e"
+        val htmlContent = """
+            <!DOCTYPE html><html><head><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" /><script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script><style>html, body { height: 100%; margin: 0; } #map { width: 100%; height: 100%; }</style></head><body><div id="map"></div><script>var map = L.map('map').setView([-6.200000, 106.816666], 13);L.tileLayer('https://maps.geoapify.com/v1/tile/osm-carto/{z}/{x}/{y}.png?apiKey=$apiKey', {maxZoom: 20,}).addTo(map);L.marker([-6.200000, 106.816666]).addTo(map).bindPopup('RS Land Of Dawn');</script></body></html>
+        """.trimIndent()
+
+        geoMap.loadDataWithBaseURL(null, htmlContent, "text/html", "UTF-8", null)
     }
 }
