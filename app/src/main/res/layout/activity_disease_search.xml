@@ -3,51 +3,69 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="#FFFFFF">
+    android:background="#FFFFFF">     <!-- putih dulu -->
 
-    <!-- Tombol kembali -->
-    <Button
-        android:id="@+id/btnBack"
-        android:text="Kembali"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#B3E5FC"
-        android:textColor="#FFFFFF"
-        android:textStyle="bold"
-        android:layout_marginBottom="12dp"/>
-
-    <!-- Kolom pencarian -->
-    <EditText
-        android:id="@+id/searchInput"
-        android:hint="Cari penyakit atau topik kesehatan..."
+    <!-- HEADER -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:drawable/editbox_background"
+        android:layout_height="70dp"
+        android:orientation="horizontal"
         android:padding="12dp"
-        android:textSize="16sp"
-        android:inputType="text"
-        android:layout_marginBottom="8dp"/>
+        android:background="@drawable/bg_header_gradient"
+        android:gravity="center_vertical">
 
-    <!-- Tombol cari -->
-    <Button
-        android:id="@+id/btnSearch"
-        android:text="Cari"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#B3E5FC"
-        android:textColor="#FFFFFF"
-        android:textStyle="bold"
-        android:layout_marginBottom="12dp"/>
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:padding="8dp"
+            android:background="@android:color/transparent"
+            android:src="@android:drawable/ic_menu_revert" />
+    </LinearLayout>
 
-    <!-- Daftar hasil pencarian -->
-    <ListView
-        android:id="@+id/listView"
+    <!-- CONTENT setelah header di wrap agar tidak kena gradient -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:divider="@android:color/darker_gray"
-        android:dividerHeight="1dp"
-        android:padding="4dp"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="12dp"
+        android:background="#FFFFFF">   <!-- putih lagi -->
+
+        <!-- search bar -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <EditText
+                android:id="@+id/searchInput"
+                android:hint="Cari penyakit atau topik kesehatan..."
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="10dp"
+                android:background="@android:drawable/editbox_background"/>
+
+            <Button
+                android:id="@+id/btnSearch"
+                android:text="Cari"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#4FC3F7"/>
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:divider="@android:color/darker_gray"
+            android:dividerHeight="1dp"
+            android:padding="4dp"/>
+
+    </LinearLayout>
 
 </LinearLayout>

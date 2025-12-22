@@ -27,7 +27,7 @@ class LoginActivity : AppCompatActivity() {
         val etEmail = findViewById<EditText>(R.id.et_email)
         val etPassword = findViewById<EditText>(R.id.et_password)
         val btnLogin = findViewById<Button>(R.id.btn_login)
-        val btnGoogle = findViewById<Button>(R.id.btn_google)
+
         val tvRegister = findViewById<TextView>(R.id.tv_register)
         val btnBack = findViewById<ImageButton>(R.id.btn_back)
 
@@ -109,9 +109,9 @@ class LoginActivity : AppCompatActivity() {
         }
 
 
-        btnGoogle.setOnClickListener {
-            Toast.makeText(this, "Google Login belum dihubungkan", Toast.LENGTH_SHORT).show()
-        }
+//        btnGoogle.setOnClickListener {
+//            Toast.makeText(this, "Google Login belum dihubungkan", Toast.LENGTH_SHORT).show()
+//        }
 
         tvRegister.setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))

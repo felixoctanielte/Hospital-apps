@@ -96,16 +96,7 @@
             android:layout_marginVertical="16dp" />
 
         <!-- Tombol Google -->
-        <Button
-            android:id="@+id/btn_google"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Login dengan Google"
-            android:textAllCaps="false"
-            android:drawableStart="@drawable/ic_google"
-            android:drawablePadding="10dp"
-            android:background="@drawable/bg_white_button"
-            android:textColor="#000" />
+
 
         <!-- Link ke Register -->
         <TextView

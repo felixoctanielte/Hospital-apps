@@ -25,7 +25,8 @@ class DiseaseSearchActivity : AppCompatActivity() {
         // Inisialisasi view
         searchInput = findViewById(R.id.searchInput)
         btnSearch = findViewById(R.id.btnSearch)
-        btnBack = findViewById(R.id.btnBack)  // Inisialisasi tombol back
+        val btnBack = findViewById<ImageButton>(R.id.btnBack)
+
         listView = findViewById(R.id.listView)
 
         // Setup adapter untuk ListView

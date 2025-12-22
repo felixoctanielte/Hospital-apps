@@ -377,12 +377,13 @@ class MainActivity : AppCompatActivity() {
     private fun checkActiveQueue(uid: String) {
         db.collection("appointments")
             .whereEqualTo("userId", uid)
-            .whereEqualTo("status", "Booked")
+            .whereIn("status", listOf("menunggu", "diproses"))
             .limit(1)
             .get()
             .addOnSuccessListener { documents ->
                 if (!documents.isEmpty) {
                     val doc = documents.documents[0]
+
                     cardGuestMode.visibility = View.GONE
                     cardQueueEmpty.visibility = View.GONE
                     cardQueueActive.visibility = View.VISIBLE
@@ -402,6 +403,7 @@ class MainActivity : AppCompatActivity() {
                 cardQueueActive.visibility = View.GONE
             }
     }
+
 
     private fun setupMap() {
         geoMap.settings.javaScriptEnabled = true
