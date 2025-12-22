@@ -134,7 +134,7 @@ Password: 1234567
 
 1. Clone repository
    ```bash
-   git clone https://github.com/yourusername/clinic-n-quick.git
+   git clone https://github.com/felixoctanielte/Hospital-apps.git
 2. Buka project menggunakan Android Studio
 3. Pastikan koneksi internet aktif
 (Aplikasi menggunakan Firebase Cloud Firestore dan API Python)
