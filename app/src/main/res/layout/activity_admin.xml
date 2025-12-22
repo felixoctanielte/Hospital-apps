@@ -28,7 +28,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="#03C4F4" />
+                    android:background="@color/blue" />
 
                 <!-- Pola hexagon -->
                 <ImageView
@@ -69,43 +69,31 @@
                     android:paddingEnd="20dp">
 
                     <TextView
+                        android:id="@+id/tv_admin_welcome"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start|top"
                         android:layout_marginTop="80dp"
                         android:elevation="6dp"
-                        android:text="CARING FOR LIFE"
+                        android:text="Welcome, Admin"
                         android:textColor="@android:color/white"
-                        android:textSize="14sp"
+                        android:textSize="16sp"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:id="@+id/tv_admin_slogan"
+                        android:layout_width="178dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start|top"
-                        android:layout_marginTop="105dp"
+                        android:layout_marginTop="110dp"
                         android:elevation="6dp"
-                        android:paddingEnd="50dp"
-                        android:text="Leading the Way\nin Medical Excellence"
+                        android:text="Manage Patient
+                        Reports Efficiently"
                         android:textColor="#082A45"
-                        android:textSize="22sp"
+                        android:textSize="20sp"
                         android:textStyle="bold" />
-
-                    <Button
-                        android:id="@+id/btnServices"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start|top"
-                        android:layout_marginTop="175dp"
-                        android:background="@drawable/bg_button_primary"
-                        android:elevation="8dp"
-                        android:paddingHorizontal="18dp"
-                        android:paddingVertical="6dp"
-                        android:text="Our Services"
-                        android:textColor="@android:color/black"
-                        android:textSize="12sp" />
-
                 </FrameLayout>
+
 
             </FrameLayout>
 

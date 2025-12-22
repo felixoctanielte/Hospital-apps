@@ -13,7 +13,8 @@ import java.io.FileOutputStream
 
 class AdminLaporanActivity : AppCompatActivity() {
 
-    private lateinit var btnBack: Button
+    private lateinit var btnBack: ImageButton
+
     private lateinit var tableLayout: TableLayout
 
     private lateinit var spPoli: Spinner
@@ -37,7 +38,12 @@ class AdminLaporanActivity : AppCompatActivity() {
         tableLayout = findViewById(R.id.table_laporan)
         val btnTampilkan = findViewById<Button>(R.id.btn_filter_tampilkan)
         val btnUnduh = findViewById<Button>(R.id.btn_unduh_pdf)
-        btnBack = findViewById(R.id.btn_back)
+        val btnBack = findViewById<ImageButton>(R.id.btn_kembali_admin)
+
+        // spinner
+
+
+
 
         spPoli = findViewById(R.id.sp_poli)
         spDokter = findViewById(R.id.sp_dokter)
@@ -165,37 +171,94 @@ class AdminLaporanActivity : AppCompatActivity() {
      */
     private fun generatePDF(dataList: List<Map<String, Any>>) {
 
-        val pdfDocument = android.graphics.pdf.PdfDocument()
-
-        val paint = Paint()
-        val pageInfo = android.graphics.pdf.PdfDocument.PageInfo.Builder(595, 842, 1).create()
-        val page = pdfDocument.startPage(pageInfo)
-        val canvas = page.canvas
-
-        var yPos = 40f
-
-        paint.textSize = 16f
-        canvas.drawText("Laporan Pasien", 200f, yPos, paint)
-
-        yPos += 40f
-        paint.textSize = 12f
-
-        for ((i,row) in dataList.withIndex()) {
-            val line = "${i+1}. ${row["patientName"]} | ${row["poli"]} | ${row["doctorName"]} | ${row["status"]}"
-            canvas.drawText(line, 30f, yPos, paint)
-            yPos += 20f
+        if(dataList.isEmpty()){
+            Toast.makeText(this,"Tidak ada data untuk dicetak",Toast.LENGTH_SHORT).show()
+            return
         }
 
-        pdfDocument.finishPage(page)
+        val pdf = android.graphics.pdf.PdfDocument()
 
+        val pageWidth = 595
+        val pageHeight = 842
+
+        val pageInfo = android.graphics.pdf.PdfDocument.PageInfo.Builder(
+            pageWidth, pageHeight, 1).create()
+
+        val page = pdf.startPage(pageInfo)
+        val canvas = page.canvas
+
+        val paint = Paint().apply { textSize = 10f }
+        val titlePaint = Paint().apply {
+            textSize = 14f
+            typeface = Typeface.create(Typeface.DEFAULT_BOLD, Typeface.BOLD)
+        }
+
+        // tanggal realtime
+        val currentDate = java.text.SimpleDateFormat("dd-MM-yyyy",
+            java.util.Locale.getDefault()).format(java.util.Date())
+
+        canvas.drawText("Laporan Pasien - $currentDate", 200f, 30f, titlePaint)
+
+        var startY = 60f
+        val startX = 20f
+
+        // header tabel
+        val columnWidths = listOf(30,110,90,70,90,90,70)
+        val headers = listOf("No","Nama","NIK","Poli","Dokter","Tanggal","Status")
+
+        var x = startX
+        for(i in headers.indices){
+            canvas.drawText(headers[i], x, startY, titlePaint)
+            x += columnWidths[i]
+        }
+
+        startY += 15f
+        canvas.drawLine(startX, startY, pageWidth-20f, startY, paint)
+        startY += 10f
+
+        for((index,row) in dataList.withIndex()){
+
+            x = startX
+
+            val rowValues = listOf(
+                (index+1).toString(),
+                row["patientName"].toString(),
+                row["nik"].toString(),
+                row["poli"].toString(),
+                row["doctorName"].toString(),
+                row["selectedDate"].toString(),
+                row["status"].toString()
+            )
+
+            for(i in rowValues.indices){
+                canvas.drawText(rowValues[i], x, startY, paint)
+                x += columnWidths[i]
+            }
+
+            startY += 18f
+
+            // buat new page jika penuh biar tidak error
+            if(startY > pageHeight - 60){
+                pdf.finishPage(page)
+                val newPage = pdf.startPage(pageInfo)
+                startY = 40f
+            }
+        }
+
+        pdf.finishPage(page)
+
+        // simpan file pdf
         val file = File(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS),"laporan_pasien.pdf")
-        pdfDocument.writeTo(FileOutputStream(file))
-        pdfDocument.close()
 
+        pdf.writeTo(FileOutputStream(file))
+        pdf.close()
+
+        // buka pdf
         val uri = FileProvider.getUriForFile(this,"$packageName.provider",file)
         val intent = Intent(Intent.ACTION_VIEW)
         intent.setDataAndType(uri,"application/pdf")
         intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
         startActivity(intent)
     }
+
 }

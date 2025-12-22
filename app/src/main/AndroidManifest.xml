@@ -32,6 +32,16 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
 
         <activity
             android:name=".CustomScannerActivity"
@@ -63,6 +73,7 @@
         <activity android:name=".AdminActivity" android:exported="false" android:label="Admin Dashboard" />
         <activity android:name=".ShowActivity" android:label="Detail Data" />
         <activity android:name=".VerifikasiPasienActivity" />
+
         <activity android:name=".AdminLaporanActivity" android:exported="true" android:label="Laporan Admin" />
         <activity android:name=".DoctorProfileActivity" android:label="Profil Dokter" />
     </application>

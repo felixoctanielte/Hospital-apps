@@ -1,102 +1,110 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:padding="16dp"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <ImageButton
-        android:id="@+id/btn_kembali_admin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@android:drawable/ic_menu_revert"
-        android:contentDescription="Kembali"
-        android:clickable="true"
-        android:focusable="true"
-        android:layout_margin="8dp"/>
 
-    <!-- Pilih Kategori -->
+    <!-- HEADER WRAPPER -->
     <LinearLayout
+        android:id="@+id/headerContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginBottom="12dp">
+        android:padding="16dp"
+        android:background="@drawable/bg_header_gradient"
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btnDokter"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+        <ImageButton
+            android:id="@+id/btn_kembali_admin"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Dokter"/>
+            android:src="@android:drawable/ic_menu_revert"
+            android:background="@android:color/transparent"
+            android:layout_margin="8dp"/>
 
-        <Button
-            android:id="@+id/btnPoli"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+        <!-- Pilih Kategori -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Poli"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"/>
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="12dp">
 
-        <Button
-            android:id="@+id/btnPasien"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            <Button
+                android:id="@+id/btnDokter"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Dokter"/>
+
+            <Button
+                android:id="@+id/btnPoli"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Poli"
+                android:layout_marginHorizontal="8dp"/>
+
+            <Button
+                android:id="@+id/btnPasien"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Pasien"/>
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/editName"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Pasien"/>
+            android:hint="Nama Dokter / Poli / Pasien"/>
+
+        <EditText
+            android:id="@+id/editSpecialty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Spesialis / Keterangan"
+            android:layout_marginTop="8dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <Button
+                android:id="@+id/btnCreate"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Create"
+                android:backgroundTint="#4CAF50"/>
+
+            <Button
+                android:id="@+id/btnUpdate"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Update"
+                android:layout_marginStart="8dp"
+                android:backgroundTint="#FFC107"/>
+
+            <Button
+                android:id="@+id/btnDelete"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Delete"
+                android:layout_marginStart="8dp"
+                android:backgroundTint="#F44336"/>
+        </LinearLayout>
+
     </LinearLayout>
 
-    <!-- Input untuk Create / Update -->
-    <EditText
-        android:id="@+id/editName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Nama Dokter / Poli / Pasien"/>
-
-    <EditText
-        android:id="@+id/editSpecialty"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Spesialis / Keterangan"
-        android:layout_marginTop="8dp"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="8dp">
-
-        <Button
-            android:id="@+id/btnCreate"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="Create"
-            android:backgroundTint="#4CAF50"/>
-
-        <Button
-            android:id="@+id/btnUpdate"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="Update"
-            android:layout_marginStart="8dp"
-            android:backgroundTint="#FFC107"/>
-
-        <Button
-            android:id="@+id/btnDelete"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="Delete"
-            android:layout_marginStart="8dp"
-            android:backgroundTint="#F44336"/>
-    </LinearLayout>
-
-    <!-- List data -->
+    <!-- LIST -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="12dp"
         android:layout_weight="1"/>
+
 </LinearLayout>
