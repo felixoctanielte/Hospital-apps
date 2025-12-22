@@ -152,6 +152,31 @@ class MainActivity : AppCompatActivity() {
         tvQueueNumber = findViewById(R.id.tvQueueNumber)
         tvHospitalName = findViewById(R.id.tvHospitalName)
     }
+    private fun checkUserCanChoosePoli(
+        uid: String,
+        onAllowed: () -> Unit,
+        onBlocked: (String) -> Unit
+    ) {
+        db.collection("appointments")
+            .whereEqualTo("userId", uid)
+            .whereIn("status", listOf("menunggu", "diproses"))
+            .limit(1)
+            .get()
+            .addOnSuccessListener { documents ->
+                if (!documents.isEmpty) {
+                    val doc = documents.documents[0]
+                    val poliAktif = doc.getString("poli") ?: "Poli"
+
+                    onBlocked(poliAktif)
+                } else {
+                    onAllowed()
+                }
+            }
+            .addOnFailureListener {
+                onAllowed() // fallback aman
+            }
+    }
+
 
     private fun setupListeners() {
         menuIcon.setOnClickListener {

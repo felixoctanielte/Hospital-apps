@@ -8,7 +8,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class PoliAdapter(
-    private var items: List<Poli>,          // ubah dari val ke var supaya bisa di-update
+    private var items: List<Poli>,
+    private val activePoliName: String? = null, // ubah dari val ke var supaya bisa di-update
     private val onClick: (Poli) -> Unit
 ) : RecyclerView.Adapter<PoliAdapter.VH>() {
 
@@ -28,13 +29,27 @@ class PoliAdapter(
         val p = items[position]
         holder.tvName.text = p.name
         holder.ivHex.setImageResource(p.hexBgRes)
-        holder.ivHex.imageTintList = null // biar warna hexagon gak redup
-        holder.itemView.setOnClickListener { onClick(p) }
+
+        val isLocked = activePoliName != null && p.name != activePoliName
+
+        if (isLocked) {
+            // Poli lain dikunci
+            holder.itemView.alpha = 0.4f
+            holder.itemView.isEnabled = false
+            holder.itemView.setOnClickListener(null)
+        } else {
+            // Poli aktif / belum ada antrian
+            holder.itemView.alpha = 1f
+            holder.itemView.isEnabled = true
+            holder.itemView.setOnClickListener { onClick(p) }
+        }
     }
+
 
     // 🔍 Tambahkan fungsi ini agar bisa update daftar poli saat pencarian
     fun updateData(newList: List<Poli>) {
         items = newList
         notifyDataSetChanged()
     }
+
 }
